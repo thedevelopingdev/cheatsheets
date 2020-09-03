@@ -1,3 +1,18 @@
+# Cheatsheet of core Kubernetes concepts
+
+## Taxonomy of Kubernetes resources (a.k.a. components)
+* `Pod`
+* `ReplicationController`
+* `ReplicaSet`
+* `DaemonSet`
+* `Job`
+* `Endpoints`
+* `Service`
+* `Deployment`
+* `Namespace`
+* `PersistentVolume`
+* `PersistentVolumeClaim`
+* `StorageClass`
 
 ## `PersistentVolume` and `PersistentVolumeClaim`
 
