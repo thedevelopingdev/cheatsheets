@@ -9,11 +9,15 @@ spec:
         - name: http            # named ports
           containerPort: 8080
   volumes:
-    - name: html
+    - name: a_git_repo
       gitRepo:
         repository: https://github.com/luksa/kubia-website-example.git
         revision: master
         directory: .  # clone into the root of the volume
+    - name: a_gce_disk
+      gcePersistentDisk:
+        pdName: gce_disk_name
+        fsType: ext4
 ```
 
 ### Liveness Probe
@@ -77,16 +81,6 @@ spec:
       targetPort: 8443
 ```
 
-### Persistent Disk Volume
-```yaml
-spec:
-  volumes:
-    - name: disk_name
-      gcePersistentDisk:
-        pdName: gce_disk_name
-        fsType: ext4
-```
-
 ### `PersistentVolume`
 ```yaml
 apiVersion: v1
@@ -103,4 +97,16 @@ spec:
   gcePersistentDisk:
     pdName: gce_disk_name
     fsType: ext4
+```
+
+### `StorageClass`
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast
+provisioner: kubernetes.io/gce-pd     # the provisioner to use
+parameters:                           # parameters passed to the provisioner
+  type: pd-ssd
+  zone: us-central1-c
 ```
