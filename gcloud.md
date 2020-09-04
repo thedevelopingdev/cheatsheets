@@ -15,4 +15,8 @@ gcloud config list
 gcloud compute disks create --size=[number]{GB|TB} --zone=[zone] <name>
 ```
 
-
+## Google Kubernetes Engine
+* Get cluster credentials and create `kubectl` config
+```
+gcloud container clusters get-credentials <cluster name>
+```
