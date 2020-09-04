@@ -65,3 +65,7 @@ $ k exec <pod name> -- <command> [args]
 $ k run <pod name> --image=<image> --generator=run-pod/v1 --command -- sleep infinity
 ```
 
+* get a list of all available Kubernetes resources
+```
+$ k api-resources -o wide
+```

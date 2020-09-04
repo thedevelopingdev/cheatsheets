@@ -13,6 +13,8 @@
 * `PersistentVolume`
 * `PersistentVolumeClaim`
 * `StorageClass`
+* `ConfigMap`
+* `Secret`
 
 ## `PersistentVolume` and `PersistentVolumeClaim`
 

@@ -4,3 +4,8 @@
 ```
 sed '/<regex pattern>/d'
 ```
+
+* In-place edit
+```
+sed -i <sed pattern> <file name>
+```
