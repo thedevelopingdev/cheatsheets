@@ -15,6 +15,8 @@
 * `StorageClass`
 * `ConfigMap`
 * `Secret`
+  * `generic`
+  * `tls`
 
 ## `PersistentVolume` and `PersistentVolumeClaim`
 

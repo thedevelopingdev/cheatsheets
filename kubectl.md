@@ -37,11 +37,6 @@ $ k port-forward <pod name> <local port>:<pod port>
 $ k create ns <namespace name>
 ```
 
-* obtain application log of a crash container
-```bash
-$ kubectl logs <podname> --previous
-```
-
 * Edit a running resource
 ```bash
 $ kubectl edit <resource type> <resource name>
@@ -68,4 +63,33 @@ $ k run <pod name> --image=<image> --generator=run-pod/v1 --command -- sleep inf
 * get a list of all available Kubernetes resources
 ```
 $ k api-resources -o wide
+```
+
+
+## Configuration
+
+* create a `ConfigMap` on the command line
+```
+# from literals
+$ k create configmap <name> --from-literal=<key>=<value> --from-literal=<key 2>=<value 2>
+
+# from files
+$ k create configmap <name> --from-file=<key>=<path to file> --from-file=<key 2>=<path to file 2>
+```
+
+* create a `Secret` on the command line
+```
+k create secret generic <secret name> --from-file=[key=]<file name>
+```
+
+## Debugging
+
+* obtain application log of a crash container
+```bash
+$ kubectl logs <podname> --previous
+```
+
+* watch the logs of a running container
+```bash
+$ k logs -f <podname> -c <container>
 ```
