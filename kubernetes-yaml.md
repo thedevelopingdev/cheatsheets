@@ -13,9 +13,12 @@
 ```yaml
 apiVersion: v1
 kind: Pod
+metadata:
+  name: pod-name
 spec:
   containers:
     - name: kubia
+      image: some/image
       command: ["<override command>"]  # equivalent to ENTRYPOINT
       args: ["[arg1]", "[arg2]"]       # equivalent to CMD
       ports:
@@ -30,6 +33,9 @@ spec:
               optional: false
               name: <config map name>
               key: <key in config map>
+      volumeMounts:
+        - name: a_git_repo
+          mountPath: /git_repo
   volumes:
     - name: a_git_repo
       gitRepo:
