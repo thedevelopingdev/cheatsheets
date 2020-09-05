@@ -20,3 +20,24 @@ gcloud compute disks create --size=[number]{GB|TB} --zone=[zone] <name>
 ```
 gcloud container clusters get-credentials <cluster name>
 ```
+
+## Google Cloud Platform Authentication
+### IAM
+* https://cloud.google.com/iam/docs/overview
+
+### Roles
+* https://cloud.google.com/iam/docs/granting-changing-revoking-access
+
+* List existing roles.
+```
+gcloud iam roles list | grep <filter>
+```
+
+* List role details.
+```
+gcloud iam roles describe <role>
+```
+
+### OAuth2
+* https://developers.google.com/identity/protocols/oauth2/scopes#storage
+* https://stackoverflow.com/questions/27275063/gsutil-copy-returning-accessdeniedexception-403-insufficient-permission-from/49961489

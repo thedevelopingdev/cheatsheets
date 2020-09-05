@@ -22,6 +22,11 @@ gcloud init
 ```
 
 ## Usage
+* View the help menu and learn best practices.
+```
+gsutil help
+```
+
 * List existing buckets in the current project.
 ```
 gsutil list
@@ -29,7 +34,7 @@ gsutil list
 
 * Make a new bucket.
 ```
-gsutil mb
+gsutil mb -l <location> gs://<bucket name>
 ```
 
 * Copy (upload) local data to a Google Cloud Storage bucket.
@@ -43,9 +48,22 @@ gsutil cp -R <local file> gs://<bucket name>
 
 # download data
 gsutil cp gs://<bucket name>/<blob> <local file> 
+
+# for large data, provide the -m flag for multiprocessing and multithreading
+gsutil cp -m <local file> gs://<bucket name>
 ```
 
 * Show objects in existing bucket.
 ```
 gsutil ls [-l] gs://<bucket name>
+```
+
+* Reconstruct object after uploading to Google Cloud Storage.
+```
+gsutil compose gs://<bucket name>/<blob glob> gs://<bucket name>/<blob>
+```
+
+* Delete object from Google Cloud Storage.
+```
+gsutil rm gs://<bucket name>/<blob>
 ```

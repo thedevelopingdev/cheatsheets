@@ -45,6 +45,9 @@ resource "google_compute_address" "[tf_name]" {
 
 ### Google Kubernetes Engine
 
+#### Clusters
+* Source: https://www.terraform.io/docs/providers/google/r/container_cluster.html
+
 #### Node Pool
 * Source: https://www.terraform.io/docs/providers/google/r/container_node_pool.html
 ```
