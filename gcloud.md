@@ -21,6 +21,8 @@ gcloud compute disks create --size=[number]{GB|TB} --zone=[zone] <name>
 gcloud container clusters get-credentials <cluster name>
 ```
 
+* Visibility into autoscaling: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-autoscaler-visibility
+
 ## Google Cloud Platform Authentication
 ### IAM
 * https://cloud.google.com/iam/docs/overview
@@ -41,3 +43,15 @@ gcloud iam roles describe <role>
 ### OAuth2
 * https://developers.google.com/identity/protocols/oauth2/scopes#storage
 * https://stackoverflow.com/questions/27275063/gsutil-copy-returning-accessdeniedexception-403-insufficient-permission-from/49961489
+
+
+## Quotas
+* List project-wide and regional quotas, both of which set usage limits.
+```
+# project specific quotas
+gcloud compute project-info describe --project <project name>
+
+# regional quotas
+gcloud compute regions describe <region>
+```
+

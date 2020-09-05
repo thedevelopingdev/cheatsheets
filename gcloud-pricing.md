@@ -1,4 +1,8 @@
 # Google Cloud pricing cheatsheet
+* https://cloud.google.com/pricing
+* https://cloud.google.com/compute/gpus-pricing
+* https://cloud.google.com/compute/docs/gpus
+* https://cloud.google.com/compute/docs/machine-types
 
 ## Google Compute Engine
 
