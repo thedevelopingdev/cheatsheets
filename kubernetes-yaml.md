@@ -139,6 +139,31 @@ parameters:                           # parameters passed to the provisioner
   zone: us-central1-c
 ```
 
+### `Deployment`
+```yaml
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: kubia
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: kubia
+      labels:
+        app: kubia
+    spec:
+      containers:
+        - image: some/image
+          name: container_name
+  minReadySeconds: 60
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: rollingUpdate
+```
+
 ## Configuration
 
 ### Defining a `ConfigMap`

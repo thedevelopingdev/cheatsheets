@@ -65,6 +65,44 @@ $ k run <pod name> --image=<image> --generator=run-pod/v1 --command -- sleep inf
 $ k api-resources -o wide
 ```
 
+* get metadata about the cluster
+```
+$ k cluster-info
+```
+
+* accessing the Kubernetes API server from a development machine
+```
+$ k proxy 
+```
+
+* accessing the Kubernetes API from within a `Pod`
+  * the alternative methods are
+    * use a client library (Go or Python)
+    * use an ambassador container as a proxy
+```
+$ k describe po <pod name>
+...
+Mounts:
+  /var/run/secrets/kubernetes.io/serviceaccount
+...
+
+$ k exec -it <pod name> -- bash
+# CURL_CA_BUNDLE=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+# TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+# NS=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
+# curl -H "Authorization: Bearer $TOKEN" \
+  https://kubernetes/api/v1/namespaces/$NS/pods
+```
+
+* listing rollout history of a deployment
+```
+$ k rollout history deployment <name>
+```
+
+* rolling back a deployment
+```
+$ k rollout undo deployment <name> [--to-revision=<number>]
+```
 
 ## Configuration
 
@@ -92,4 +130,14 @@ $ kubectl logs <podname> --previous
 * watch the logs of a running container
 ```bash
 $ k logs -f <podname> -c <container>
+```
+
+* check the status of a rollout
+```
+k rollout status deployment <deployment name>
+```
+
+* increase output verbosity
+```
+k [-v={0..9}>] <command>
 ```
