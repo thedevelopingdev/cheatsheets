@@ -20,4 +20,13 @@ curl -L $SERVER:$PORT/api/v1/namespaces/$NS/pods/$POD/proxy/$PATH
 
 ```
 
+## Unsolved Kubernetes Bugs/Issues
+
+* Containers stuck on image pull (probably because network not available?)
+  - https://github.com/kubernetes/kubernetes/issues/83471
+  - https://github.com/kubernetes/kubernetes/issues/44273
+  * Temporary solution: Node was unhealthy (figured this out by ssh'ing into
+    it, and seeing that commands took a long time to respond.). Deleting the
+    node and creating a new one fixed the problem.
+
 

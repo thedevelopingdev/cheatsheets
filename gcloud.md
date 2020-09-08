@@ -15,6 +15,11 @@ gcloud config list
 gcloud compute disks create --size=[number]{GB|TB} --zone=[zone] <name>
 ```
 
+* SSH into a node
+```
+gcloud compute ssh <node name>
+```
+
 ## Google Kubernetes Engine
 * Get cluster credentials and create `kubectl` config
 ```
@@ -54,4 +59,5 @@ gcloud compute project-info describe --project <project name>
 # regional quotas
 gcloud compute regions describe <region>
 ```
+
 
