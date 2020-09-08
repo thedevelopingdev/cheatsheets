@@ -1,9 +1,21 @@
 # `kubectl` Cheatsheet
 
+## Installation
+* Add autocomplete to `kubectl` on `zsh`
+
+```sh
+# add the following to ~/.zshrc
+source <(kubectl completion zsh)
+alias k=kubectl
+complete -F __start_kubectl k
+```
+
+## Commands
 * Get custom columns; this one will show which nodes pods are running on.
 * Find the custom column names by using "-o json"
-```bash
-$ k get po -o custom-columns='NAME:metadata.name,IP:status.hostIP'
+
+```sh
+k get po -o custom-columns='NAME:metadata.name,IP:status.hostIP'
 ```
 
 * List pods with labels
