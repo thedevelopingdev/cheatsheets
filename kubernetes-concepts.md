@@ -17,6 +17,7 @@
 * `Secret`
   * `generic`
   * `tls`
+* `List`
 
 ## `PersistentVolume` and `PersistentVolumeClaim`
 

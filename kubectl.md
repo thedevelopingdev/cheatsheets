@@ -109,10 +109,12 @@ $ k rollout undo deployment <name> [--to-revision=<number>]
 * create a `ConfigMap` on the command line
 ```
 # from literals
-$ k create configmap <name> --from-literal=<key>=<value> --from-literal=<key 2>=<value 2>
+$ k create configmap <name> --from-literal=<key>=<value> \
+  [--from-literal=<key 2>=<value 2>]
 
 # from files
-$ k create configmap <name> --from-file=<key>=<path to file> --from-file=<key 2>=<path to file 2>
+$ k create configmap <name> --from-file=<key>=<path to file> \
+  [--from-file=<key 2>=<path to file 2>]
 ```
 
 * create a `Secret` on the command line
@@ -141,3 +143,4 @@ k rollout status deployment <deployment name>
 ```
 k [-v={0..9}>] <command>
 ```
+
