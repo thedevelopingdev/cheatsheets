@@ -12,16 +12,20 @@ complete -F __start_kubectl k
 
 ## Commands
 * Get custom columns; this one will show which nodes pods are running on.
-* Find the custom column names by using "-o json"
+  * Find the custom column names by using `-o json`
+  * Sort by using `--sort-by`
 
 ```sh
-k get po -o custom-columns='NAME:metadata.name,IP:status.hostIP'
+k get po \
+  -o custom-columns='NAME:metadata.name,IP:status.hostIP' \
+  --sort-by 'spec.nodeName'
 ```
 
 * List pods with labels
-```bash
-$ k get po --show-labels
-$ k get po -L <label names>
+
+```sh
+k get po --show-labels
+k get po -L <label names>
 ```
 
 * Add labels to pods
@@ -45,12 +49,14 @@ $ k port-forward <pod name> <local port>:<pod port>
 ```
 
 * creating a namespace
-```bash
+
+```sh
 $ k create ns <namespace name>
 ```
 
 * Edit a running resource
-```bash
+
+```sh
 $ kubectl edit <resource type> <resource name>
 ```
 
@@ -111,9 +117,15 @@ $ k exec -it <pod name> -- bash
 $ k rollout history deployment <name>
 ```
 
-* rolling back a deployment
+- rolling back a deployment
 ```
 $ k rollout undo deployment <name> [--to-revision=<number>]
+```
+
+- Watch events emitted by the `API Server`
+
+```sh
+k get events --watch
 ```
 
 ## Configuration

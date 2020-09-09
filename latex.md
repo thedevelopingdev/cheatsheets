@@ -1,18 +1,22 @@
 # LaTeX cheatsheet
 
 * Remove spacing between list items and between lists.
+
 ```tex
 \setlist[itemize]{noitemsep,nolistsep}
 ```
 
 ## Definitions, theorems, lemmas, remarks, and proofs.
+
 * Set up environments.
+
 ```tex
 % basics
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
 ```
 * Set up numbering.
+
 ```tex
 % \newtheorem{theorem}[<environment>]{Theorem}[<reset>]
 
@@ -28,4 +32,11 @@
 % named theorems
 \begin{theorem}[<name>]
 \end{theorem}
+```
+
+## Figures
+
+```tex
+\usepackage{wrapfig}
+\usepackage{graphicx}
 ```
