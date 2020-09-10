@@ -153,7 +153,7 @@ type of `PersistentVolume` should be created.
 
 ![roles and bindings](./kube-assets/roles-and-bindings.png)
 
-![cluster vs non-cluster](,/kube-assets/cluster-vs-non-cluster.png)
+![cluster vs non-cluster](,/kube-assets/cluster-vs-not-cluster.png)
 
 ![combinations to use](./kube-assets/rolebinding-combinations.png)
 
