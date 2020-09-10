@@ -29,4 +29,11 @@ curl -L $SERVER:$PORT/api/v1/namespaces/$NS/pods/$POD/proxy/$PATH
     it, and seeing that commands took a long time to respond.). Deleting the
     node and creating a new one fixed the problem.
 
+- `Error dialing backend: EOF` when using `kubectl exec -it <pod> sh`
+  - Reason: still unknown, related to inability to connect to node.
+  - Related: https://gitlab.com/gitlab-org/gitlab-runner/-/issues/3247
+  - Resolution: `gcloud compute instances reset <node_name>`
 
+## Questions
+
+- GKE Console: What does `Status: Unknown` mean in the node pools section?

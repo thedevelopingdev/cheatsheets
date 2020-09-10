@@ -123,6 +123,44 @@ type of `PersistentVolume` should be created.
 
 ![dynamic provisioning](./kube-assets/pv-pvc-dp.png)
 
+
+## Securing Kubernetes
+
+- `ServiceAccounts` are formatted as the following:
+  - `system:serviceaccount:<namespace>:<service account name>`
+- `Pods` can only use `ServiceAccounts` in the same `Namespace`.
+- Groups are used to give permissions to sets of users and `ServiceAccounts`.
+- Groups are simply strings.
+
+### Built-in groups
+- `system:unauthenticated`
+- `system:authenticated`
+- `system:serviceaccounts`
+- `system:serviceaccounts:<namespace>`
+
+### Enforcing mountable `Secrets`
+- Give a `ServiceAccount` the annotation:
+  - `kubernetes.io/enforce-mountable-secrets="true"`
+
+### Role-based Access Control (RBAC)
+- A subject is associated with one or more roles, each role dictating which
+  verbs can be performed, and on which resources.
+- RBAC authorization rules are configured through four resources
+  - `Roles` (namespaced) and `ClusterRoles` (not namespaced), which specify
+    which verbs can be performed on which resources.
+  - `RoleBindings` and `ClusterRoleBindings`, which bind the above roles to
+    specific users, groups or `ServiceAccounts`.
+
+![roles and bindings](./kube-assets/roles-and-bindings.png)
+
+![cluster vs non-cluster](,/kube-assets/cluster-vs-non-cluster.png)
+
+![combinations to use](./kube-assets/rolebinding-combinations.png)
+
+- `ClusterRoleBindings` must be used for non-namespaced resources, because even
+  though normal `RoleBindings` can reference `ClusterRoles`, the normal
+  `RoleBindings` cannot enable access for cluster-level resources.
+
 ## References
 * All images are figures taken from Marko Luksa's book, **Kubernetes
   in Action**.

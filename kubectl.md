@@ -149,22 +149,55 @@ k create secret generic <secret name> --from-file=[key=]<file name>
 ## Debugging
 
 * obtain application log of a crash container
-```bash
-$ kubectl logs <podname> --previous
+
+```sh
+kubectl logs <podname> --previous
 ```
 
 * watch the logs of a running container
-```bash
-$ k logs -f <podname> -c <container>
+
+```sh
+k logs -f <podname> -c <container>
 ```
 
 * check the status of a rollout
-```
+
+```sh
 k rollout status deployment <deployment name>
 ```
 
 * increase output verbosity
-```
+
+```sh
 k [-v={0..9}>] <command>
 ```
+
+## Security and `ServiceAccounts`
+
+* Create a `ServiceAccount`
+
+```sh
+k create serviceaccount <svc account name>
+```
+
+- Create a `Role`
+
+```sh
+k create role <role_name>       \
+  --verb=<a_valid_verb>         \
+  --resource=<a_valid_resource> \
+  -n <namespace>
+```
+
+- Create a `RoleBinding`
+
+```sh
+k create rolebinding <rolebinding_name>         \
+  --role=<role_name>                            \
+  --serviceaccount=<namespace>:<account_name>   \
+  -n <namespace>
+```
+
+
+
 

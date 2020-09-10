@@ -10,12 +10,14 @@
 ## API resources
 
 ### `Pod`
+
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
   name: pod-name
 spec:
+  serviceAccountName: default
   containers:
     - name: kubia
       image: some/image
@@ -49,8 +51,10 @@ spec:
 ```
 
 ### Liveness Probe
+
 ```yaml
 # pod-liveness.yaml
+
 apiVersion: v1
 kind: Pod
 spec:
@@ -65,6 +69,7 @@ spec:
 ```
 
 ### `ReplicationController`
+
 ```yaml
 spec:
   replicas: 3
@@ -82,6 +87,7 @@ spec:
 ```
 
 ### `ReplicaSet`
+
 ```yaml
 # ... metadata etc ...
 spec:
@@ -96,6 +102,7 @@ spec:
 ```
 
 ### `Service`
+
 ```yaml
 spec:
   selector:
@@ -110,6 +117,7 @@ spec:
 ```
 
 ### `PersistentVolume`
+
 ```yaml
 apiVersion: v1
 kind: PersistentVolume
@@ -192,7 +200,8 @@ data:
 ```
 
 ### Environment variables
-* **Note that improperly formatted keys will not have associated environment variables.**
+* **Note that improperly formatted keys will not have associated environment
+  variables.**
 
 ```yaml
 spec:
@@ -208,7 +217,9 @@ spec:
 
 ### Mounting configuration as a volume
 
-Mounting configurations as volumes via `ConfigMaps` has the benefit that the containers will receive these updates, although the process has to  be programmed to detect these changes and apply them.
+Mounting configurations as volumes via `ConfigMaps` has the benefit that the
+containers will receive these updates, although the process has to  be
+programmed to detect these changes and apply them.
 
 #### Selecting specific keys to mount in volume
 ```yaml
@@ -227,6 +238,7 @@ spec:
 ```
 
 #### Mounting the config volume without hiding default contents
+
 ```yaml
 spec:
   containers:
@@ -237,11 +249,16 @@ spec:
           # specific file designated in volume definition
           subPath: specific-file-in-volume.conf
 ```
-Because these files don't get automatically updated by Kubernetes, it's better to mount full volumes, and then use symlinks to place the config files in the directories where they are needed.
 
-Alternatively, it is better to use immutable infrastructure and not modify `ConfigMaps` of running `Pods`.
+Because these files don't get automatically updated by Kubernetes, it's better
+to mount full volumes, and then use symlinks to place the config files in the
+directories where they are needed.
+
+Alternatively, it is better to use immutable infrastructure and not modify
+`ConfigMaps` of running `Pods`.
 
 ### Image pull `Secrets` i.e. accessing private Docker registries
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -251,4 +268,50 @@ spec:
   containers:
     - image: me/private:tag
       name: main
+```
+
+### Cluster security: `Roles` and `RoleBindings`
+
+#### `Roles`
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: <namespace here>
+  name: <role name here>
+rules:
+  - apiGroups: [""]           # part of the core apiGroup
+    verbs: ["get", "list"]
+    resources: ["services"]   # plurals are required!
+```
+
+- Valid verbs:
+  - Single resource
+    - `get`, `watch`
+    - `create`
+    - `update`
+    - `patch`
+    - `delete`
+  - Collections
+    - `list`
+    - `deleteCollection`
+
+#### `RoleBindings`
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: test
+  namespace: foo
+roleRef:                                  # binds to a single Role
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  # this role refers to the one in the same namespace as the rolebinding
+  name: service-reader
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: foo
 ```
