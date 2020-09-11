@@ -59,5 +59,3 @@ gcloud compute project-info describe --project <project name>
 # regional quotas
 gcloud compute regions describe <region>
 ```
-
-
