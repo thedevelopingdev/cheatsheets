@@ -38,6 +38,15 @@ spec:
       volumeMounts:
         - name: a_git_repo
           mountPath: /git_repo
+      securityContext:                  # settings such as runAsUser
+        runAsUser: 405                  # 405 = guest user on Alpine linux
+        runAsNonRoot: true
+        readOnlyRootFilesystem: true    # disallow writing to container
+        capabilities:
+        # list: https://man7.org/linux/man-pages/man7/capabilities.7.html
+          add:
+            - SYS_PTRACE
+
   volumes:
     - name: a_git_repo
       gitRepo:

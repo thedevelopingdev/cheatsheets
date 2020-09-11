@@ -18,6 +18,14 @@
   * `generic`
   * `tls`
 * `List`
+- Security
+  - `Role`
+  - `RoleBinding`
+  - `ClusterRole`
+  - `ClusterRoleBinding`
+  - `PodSecurityPolicy` (The `PodSecurityPolicy` admission controller needs to be enabled.)
+  - `NetworkPolicy`
+
 
 ## Kubernetes internals
 
@@ -160,6 +168,35 @@ type of `PersistentVolume` should be created.
 - `ClusterRoleBindings` must be used for non-namespaced resources, because even
   though normal `RoleBindings` can reference `ClusterRoles`, the normal
   `RoleBindings` cannot enable access for cluster-level resources.
+
+### Linux namespaces
+- A `Pod` generally has its own Linux namespace for networking and process, but
+  can be instructed to share namespaces with its host (e.g. via the
+  `spec.{hostNetwork|hostPID|hostIPC}` options).
+- A `Pod` can share host ports using the `spec.containers[].ports[].hostPort`
+  option, while maintaining a distinct network namespace from the host. This
+  option is different from `NodePort` services that open a port on all nodes
+  and forward to a randomly chosen `Pod`. `hostPort` simply forwards a port
+  from the host to the container.
+
+
+### Security Contexts
+- Allows you to configure many security-related features, such as
+  - Specify the user under which a process in containers will run
+  - Prevent the container from running as root
+  - Configure fine-grained privileges for each container
+  - Set SELinux to lock down a container
+  - Prevent the process from writing to the container's filesystem
+- Proper security will require that Docker containers are built with security
+  concepts in mind, such as correct user permissions (instead of `root` for
+  everything).
+- Instead of running containers as _privileged_, look up the Linux kernel
+  capabilities and give the container access to only the capabilities is
+  requires.
+- Additionally, care should be taken so that the application does not write to
+  disk in a way that Kubernetes cannot organize such disk files as mountable
+  volumes. Being able to keep the container read only increases security
+  posture.
 
 ## References
 * All images are figures taken from Marko Luksa's book, **Kubernetes
