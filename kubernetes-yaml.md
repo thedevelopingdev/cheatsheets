@@ -18,6 +18,7 @@ metadata:
   name: pod-name
 spec:
   serviceAccountName: default
+  restartPolicy: Always
   containers:
     - name: kubia
       image: some/image
