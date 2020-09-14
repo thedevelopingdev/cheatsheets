@@ -1,23 +1,23 @@
 # Cheatsheet of core Kubernetes concepts
 
 ## Taxonomy of Kubernetes resources (a.k.a. components)
-* `Pod`
-* `ReplicationController`
-* `ReplicaSet`
-* `DaemonSet`
-* `Job`
-* `Endpoints`
-* `Service`
-* `Deployment`
-* `Namespace`
-* `PersistentVolume`
-* `PersistentVolumeClaim`
-* `StorageClass`
-* `ConfigMap`
-* `Secret`
-  * `generic`
-  * `tls`
-* `List`
+- `Pod`
+- `ReplicationController`
+- `ReplicaSet`
+- `DaemonSet`
+- `Job`
+- `Endpoints`
+- `Service`
+- `Deployment`
+- `Namespace`
+- `PersistentVolume`
+- `PersistentVolumeClaim`
+- `StorageClass`
+- `ConfigMap`
+- `Secret`
+  - `generic`
+  - `tls`
+- `List`
 - Security
   - `Role`
   - `RoleBinding`
@@ -25,7 +25,8 @@
   - `ClusterRoleBinding`
   - `PodSecurityPolicy` (The `PodSecurityPolicy` admission controller needs to be enabled.)
   - `NetworkPolicy`
-
+- `LimitRange`
+- `ResourceQuota`
 
 ## Kubernetes internals
 
@@ -197,6 +198,25 @@ type of `PersistentVolume` should be created.
   disk in a way that Kubernetes cannot organize such disk files as mountable
   volumes. Being able to keep the container read only increases security
   posture.
+
+## Resource limits
+- Use the `Downward API` to pass CPU limit information to the container and use that to limit the number of CPUs and threads, because despite being in a container, processes within a container see the node's memory and CPU count.
+  - `/sys/fs/cgroup/cpu/cpu.cfs_quota_us`
+  - `/sys/fs/cgroup/cpu/cpu.cfs_period_us`
+
+### Quality of Service levels
+- `BestEffort`. no limits, no requests.
+- `Guaranteed`. limits = requests.
+- `Burstable`. requests < limits.
+- Pods are killed according to the percentage of the resources used (pods
+  with higher percentages are killed with higher priority).
+
+### Setting resource minima, maxima, and defaults
+- `LimitRange` resources can set minimum and maximum limits for individual
+  pods and containers, as well as set default request sizes.
+
+### Limiting _total resources_ available in a namespace
+- `ResourceQuota`
 
 ## References
 * All images are figures taken from Marko Luksa's book, **Kubernetes

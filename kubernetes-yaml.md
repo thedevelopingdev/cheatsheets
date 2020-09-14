@@ -39,6 +39,13 @@ spec:
       volumeMounts:
         - name: a_git_repo
           mountPath: /git_repo
+      resources:
+        requests:
+          cpu: 200m
+          memory: 10Mi
+        limits:
+          cpu: 1
+          memory: 20Mi
       securityContext:                  # settings such as runAsUser
         runAsUser: 405                  # 405 = guest user on Alpine linux
         runAsNonRoot: true
