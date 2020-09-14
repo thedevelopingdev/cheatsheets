@@ -9,9 +9,14 @@
 ## Using Nvidia GPUs
 
 1. Install the Nvidia drivers.
-2. Install the Nvidia container runtime ([original](https://nvidia.github.io/nvidia-container-runtime/), [archive]()).
+2. Install the Nvidia container runtime.
+  - [Github](https://github.com/NVIDIA/nvidia-container-runtime)
+  - [Original](https://nvidia.github.io/nvidia-container-runtime/)
+  - [Archive](https://archive.is/GgiOE)
 
 ```sh
+# for debian based systems (e.g. ubuntu)
+
 curl -s -L https://nvidia.github.io/nvidia-container-runtime/gpgkey | \
   sudo apt-key add -
 
@@ -22,4 +27,6 @@ curl -s -L https://nvidia.github.io/nvidia-container-runtime/$distribution/nvidi
 
 sudo apt-get update
 sudo apt-get install nvidia-container-runtime
+
+sudo systemctl restart docker.service
 ```
