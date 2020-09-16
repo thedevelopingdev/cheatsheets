@@ -20,3 +20,9 @@ git clone https://github.com/lambdalisue/jupyter-vim-binding vim_binding
 # activate the extension
 jupyter nbextension enable vim_binding/vim_binding
 ```
+
+- enable the code freezing extension
+
+```sh
+jupyter nbextension enable freeze/main
+```
