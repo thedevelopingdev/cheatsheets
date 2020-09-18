@@ -169,7 +169,7 @@ spec:
 
 ### `StorageClass`
 
-See [StorageClass#Parameters](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters) for details on the parameters available for each provisioner.
+See **`StorageClass#Parameters`** ([original](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters), [archive.is](https://archive.is/XI3ib)) for details on the parameters available for each provisioner.
 
 ```yaml
 apiVersion: storage.k8s.io/v1
