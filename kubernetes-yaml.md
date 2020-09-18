@@ -11,6 +11,8 @@
 
 ### `Pod`
 
+* Find the full set of Linux kernel capabilities [here](https://man7.org/linux/man-pages/man7/capabilities.7.html).
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -27,7 +29,7 @@ spec:
       ports:
         - name: http                   # named ports
           containerPort: 8080
-      env:
+      env:                             # environment variables
         - name: FIRST_VAR
           value: "first"
         - name: SECOND_VAR
@@ -36,101 +38,98 @@ spec:
               optional: false
               name: <config map name>
               key: <key in config map>
-      volumeMounts:
-        - name: a_git_repo
-          mountPath: /git_repo
-      resources:
+      volumeMounts:                     # volume mounts
+        - name: <++>
+          mountPath: <++>
+      resources:                        # resource requests
         requests:
           cpu: 200m
           memory: 10Mi
         limits:
           cpu: 1
           memory: 20Mi
-      securityContext:                  # settings such as runAsUser
-        runAsUser: 405                  # 405 = guest user on Alpine linux
-        runAsNonRoot: true
-        readOnlyRootFilesystem: true    # disallow writing to container
-        capabilities:
-        # list: https://man7.org/linux/man-pages/man7/capabilities.7.html
-          add:
-            - SYS_PTRACE
-
-  volumes:
-    - name: a_git_repo
-      gitRepo:
-        repository: https://github.com/luksa/kubia-website-example.git
-        revision: master
-        directory: .  # clone into the root of the volume
-    - name: a_gce_disk
-      gcePersistentDisk:
-        pdName: gce_disk_name
-        fsType: ext4
-```
-
-### Liveness Probe
-
-```yaml
-# pod-liveness.yaml
-
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-    - image: user/image
-      name: some-name
-      livenessProbe:
+      livenessProbe:                    # liveness probes
         httpGet:
           path: /
           port: 8080
         initialDelaySeconds: 60
+      securityContext:                  # settings such as runAsUser
+        runAsUser: 405                  # 405 = guest user on Alpine linux
+        runAsNonRoot: true
+        readOnlyRootFilesystem: true    # disallow writing to container
+        capabilities:                   # Linux kernel capabilities
+          add:
+            - SYS_PTRACE
+  volumes:
+    - name: <++>
+      gitRepo:
+        repository: <++>
+        revision: <++>    # the branch
+        directory: <++>   # where in the volume to clone into
+    - name: <++>
+      gcePersistentDisk:
+        pdName: <++>
+        fsType: ext4
+    - name: <++>
+      persistentVolumeClaim:
+        claimName: <++>
 ```
 
 ### `ReplicationController`
 
 ```yaml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: <++>
+  labels:
+    <++>: <++>
+    <++>: <++>
 spec:
   replicas: 3
-  # optional; kubernetes can extract the selector from the pod template
-  selector:
-    label_key: label_value
+  selector:                     # selector is optional; kubernetes can extract
+    label_key: label_value      # the selector from the pod template
   template:
-    metadata:
-      labels:
-        label_key: label_value
-    spec:
-      containers:
-        - name: container_name
-          image: user/image
+    # same as Pod spec here.
 ```
 
 ### `ReplicaSet`
 
 ```yaml
-# ... metadata etc ...
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: <++>
+  labels:
+    <++>: <++>
+    <++>: <++>
 spec:
   replicas: 3
   selector:
     matchExpressions:
       - key: label_name
-        operator: In # In, NotIn, Exists, DoesNotExist
+        operator: In        # In, NotIn, Exists, DoesNotExist
         values:
           - label_value
-# ... template stuff ...
+  template:
+    # same as Pod spec here.
 ```
 
 ### `Service`
 
 ```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: <++>
 spec:
+  type: <++>              # NodePort, LoadBalancer
   selector:
-    app: app_name_label
+    <++>: <++>
   ports:
-    - name: port_name
-      port: 80            # the port the service will be available on
-      targetPort: 8080    # the container port the service will forward to
-    - name: port_name_2
-      port: 443
-      targetPort: 8443
+    - name: <++>          # Remember that a Service is ip + port
+      port: <++>          # port is the port the Service is associated with
+      targetPort: <++>    # targetPort is the port the app is listening on 
 ```
 
 ### `PersistentVolume`
@@ -139,7 +138,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mongodb-pv
+  name: <++>
 spec:
   capacity:
     storage: 10Gi
@@ -152,26 +151,60 @@ spec:
     fsType: ext4
 ```
 
+### `PersistentVolumeClaim`
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: <++>
+spec:
+  storageClassName: <++>
+  resources:
+    requests:
+      storage: <++>
+  accessModes:
+    - <++>                  # ReadWriteOnce, ReadOnlyMany, ReadWriteMany
+```
+
 ### `StorageClass`
+
+See [StorageClass#Parameters](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters) for details on the parameters available for each provisioner.
+
 ```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: fast
-provisioner: kubernetes.io/gce-pd     # the provisioner to use
-parameters:                           # parameters passed to the provisioner
-  type: pd-ssd
-  zone: us-central1-c
+  name: <++>
+provisioner: <++>     # the provisioner to use
+parameters:           # parameters passed to the provisioner
+  <++>: <++>
+```
+
+#### Google Cloud
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: <++>
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: <++>              # pd-ssd or pd-standard
+  fstype: <++>            # ext4 or xfs
 ```
 
 ### `Deployment`
 ```yaml
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kubia
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      <++>: <++>
   template:
     metadata:
       name: kubia
