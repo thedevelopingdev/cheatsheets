@@ -1,6 +1,8 @@
+# Nginx cheatsheet
 
-## Certbot manual
+## Using Let's Encrypt and Certbot manually
 
+### Starting `certbot`
 ```
 $ sudo certbot certonly --manual --preferred-challenges http
 
@@ -73,4 +75,46 @@ IMPORTANT NOTES:
 
    Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
    Donating to EFF:                    https://eff.org/donate-le
+```
+
+### Completing `certbot` challenges
+
+```
+# nginx.conf
+
+server {
+  listen 80;
+  server_name <++>;
+
+  location /.well-known/acme-challenge/<++> {
+    add_header Content-Type text/plain;
+
+    return 200 "<++>";
+  }
+}
+```
+
+
+## Setup website with HTTPS
+```
+# nginx.conf
+
+server {
+  listen 443 ssl;
+  server_name <++>;
+
+  ssl on;
+  ssl_certificate /path/to/public-cert-chain/fullchain.pem;
+  ssl_certificate_key /path/to/private-key/privkey.pem;
+
+  location / {
+    proxy_pass http://<++>:<++>;
+  }
+}
+
+server {    # redirect http to https
+  listen 80;
+  server_name <++>;
+  return 301 https://$host$request_uri;
+}
 ```
