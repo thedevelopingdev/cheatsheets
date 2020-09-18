@@ -36,7 +36,7 @@ spec:
               optional: false
               name: <config map name>
               key: <key in config map>
-      envFrom:                              # import all environment variables from `ConfigMap`
+      envFrom:                # import env variables from `ConfigMap`
         - prefix: CONFIG_
           configMapRef:
             name: <++>
@@ -74,7 +74,13 @@ spec:
         fsType: ext4
     - name: <++>
       persistentVolumeClaim:
-        claimName: <++>
+        claimName: <name of PersistentVolumeClaim>
+    - name: <++>
+      secret:
+        secretName: <name of Secret>
+    - name: <++>
+      configMap:
+        name: <name of ConfigMap>
 ```
 
 - Find the full set of Linux kernel capabilities [here](https://man7.org/linux/man-pages/man7/capabilities.7.html).
@@ -91,10 +97,10 @@ metadata:
     <++>: <++>
 spec:
   replicas: 3
-  selector:                     # selector is optional; kubernetes can extract
-    label_key: label_value      # the selector from the pod template
+  selector:              # selector is optional; kubernetes can extract
+    <++>: <++>           # the selector from the pod template
   template:
-    # same as Pod spec here.
+    # (!-- Pod.spec --)
 ```
 
 ### `ReplicaSet`
@@ -106,17 +112,16 @@ metadata:
   name: <++>
   labels:
     <++>: <++>
-    <++>: <++>
 spec:
   replicas: 3
   selector:
     matchExpressions:
-      - key: label_name
+      - key: <++>
         operator: In        # In, NotIn, Exists, DoesNotExist
         values:
-          - label_value
+          - <++>
   template:
-    # same as Pod spec here.
+    # (!-- Pod.spec --)
 ```
 
 ### `Deployment`
@@ -126,25 +131,18 @@ kind: Deployment
 metadata:
   name: kubia
 spec:
+  minReadySeconds: 60
   replicas: 3
   selector:
     matchLabels:
       <++>: <++>
-  template:
-    metadata:
-      name: kubia
-      labels:
-        app: kubia
-    spec:
-      containers:
-        - image: some/image
-          name: container_name
-  minReadySeconds: 60
   strategy:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
     type: rollingUpdate
+  template:
+    # (!-- Pod.spec --)
 ```
 
 ### `Service`
