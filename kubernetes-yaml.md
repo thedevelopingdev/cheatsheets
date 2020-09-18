@@ -132,68 +132,6 @@ spec:
       targetPort: <++>    # targetPort is the port the app is listening on 
 ```
 
-### `PersistentVolume`
-
-```yaml
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: <++>
-spec:
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-    - ReadOnlyMany
-  persistentVolumeReclaimPolicy: Retain
-  gcePersistentDisk:
-    pdName: gce_disk_name
-    fsType: ext4
-```
-
-### `PersistentVolumeClaim`
-
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: <++>
-spec:
-  storageClassName: <++>
-  resources:
-    requests:
-      storage: <++>
-  accessModes:
-    - <++>                  # ReadWriteOnce, ReadOnlyMany, ReadWriteMany
-```
-
-### `StorageClass`
-
-See **`StorageClass#Parameters`** ([original](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters), [archive.is](https://archive.is/XI3ib)) for details on the parameters available for each provisioner.
-
-```yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: <++>
-provisioner: <++>     # the provisioner to use
-parameters:           # parameters passed to the provisioner
-  <++>: <++>
-```
-
-#### Google Cloud
-
-```yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: <++>
-provisioner: kubernetes.io/gce-pd
-parameters:
-  type: <++>              # pd-ssd or pd-standard
-  fstype: <++>            # ext4 or xfs
-```
-
 ### `Deployment`
 ```yaml
 apiVersion: apps/v1
@@ -222,9 +160,74 @@ spec:
     type: rollingUpdate
 ```
 
+## Storage
+
+### `PersistentVolume`
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: <++>
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain
+  gcePersistentDisk:
+    pdName: gce_disk_name
+    fsType: ext4
+```
+
+
+### `StorageClass`
+
+See **`StorageClass#Parameters`** ([original](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters), [archive.is](https://archive.is/XI3ib)) for details on the parameters available for each provisioner.
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: <++>
+provisioner: <++>     # the provisioner to use
+parameters:           # parameters passed to the provisioner
+  <++>: <++>
+```
+
+### `PersistentVolumeClaim`
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: <++>
+spec:
+  storageClassName: <++>
+  resources:
+    requests:
+      storage: <++>
+  accessModes:
+    - <++>                  # ReadWriteOnce, ReadOnlyMany, ReadWriteMany
+```
+
+#### Google Cloud
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: <++>
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: <++>              # pd-ssd or pd-standard
+  fstype: <++>            # ext4 or xfs
+```
+
 ## Configuration
 
-### Defining a `ConfigMap`
+### `ConfigMap`
 ```yaml
 apiVersion: v1
 kind: ConfigMap
@@ -235,8 +238,7 @@ data:
   sleep-interval: "25"
 ```
 
-### Defining `Secrets`
-The reason for base64 encoding was not for encryption, but to support binary configuration files.
+### `Secrets`
 
 ```yaml
 apiVersion: v1
@@ -248,6 +250,8 @@ data:
   key1: value2
   key2: value2
 ```
+
+Trivia: the reason for base64 encoding was not for encryption, but to support binary configuration files.
 
 ### Environment variables
 * **Note that improperly formatted keys will not have associated environment
@@ -320,7 +324,7 @@ spec:
       name: main
 ```
 
-### Cluster security: `Roles` and `RoleBindings`
+### Cluster security
 
 #### `Roles`
 
