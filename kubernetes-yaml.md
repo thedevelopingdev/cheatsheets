@@ -7,11 +7,9 @@
   value: "$(FIRST_VAR)bar"
 ```
 
-## API resources
+## Applications
 
 ### `Pod`
-
-* Find the full set of Linux kernel capabilities [here](https://man7.org/linux/man-pages/man7/capabilities.7.html).
 
 ```yaml
 apiVersion: v1
@@ -24,13 +22,13 @@ spec:
   containers:
     - name: kubia
       image: some/image
-      command: ["<override command>"]  # equivalent to ENTRYPOINT
-      args: ["[arg1]", "[arg2]"]       # equivalent to CMD
+      command: ["<override command>"]       # equivalent to ENTRYPOINT
+      args: ["[arg1]", "[arg2]", $(VAR)]    # equivalent to CMD
       ports:
-        - name: http                   # named ports
+        - name: http                        # named ports
           containerPort: 8080
-      env:                             # environment variables
-        - name: FIRST_VAR
+      env:                                  # environment variables
+        - name: <++>
           value: "first"
         - name: SECOND_VAR
           valueFrom:
@@ -38,6 +36,10 @@ spec:
               optional: false
               name: <config map name>
               key: <key in config map>
+      envFrom:                              # import all environment variables from `ConfigMap`
+        - prefix: CONFIG_
+          configMapRef:
+            name: <++>
       volumeMounts:                     # volume mounts
         - name: <++>
           mountPath: <++>
@@ -74,6 +76,8 @@ spec:
       persistentVolumeClaim:
         claimName: <++>
 ```
+
+- Find the full set of Linux kernel capabilities [here](https://man7.org/linux/man-pages/man7/capabilities.7.html).
 
 ### `ReplicationController`
 
@@ -115,23 +119,6 @@ spec:
     # same as Pod spec here.
 ```
 
-### `Service`
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: <++>
-spec:
-  type: <++>              # NodePort, LoadBalancer
-  selector:
-    <++>: <++>
-  ports:
-    - name: <++>          # Remember that a Service is ip + port
-      port: <++>          # port is the port the Service is associated with
-      targetPort: <++>    # targetPort is the port the app is listening on 
-```
-
 ### `Deployment`
 ```yaml
 apiVersion: apps/v1
@@ -160,6 +147,23 @@ spec:
     type: rollingUpdate
 ```
 
+### `Service`
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: <++>
+spec:
+  type: <++>              # NodePort, LoadBalancer
+  selector:
+    <++>: <++>
+  ports:
+    - name: <++>          # Remember that a Service is ip + port
+      port: <++>          # port is the port the Service is associated with
+      targetPort: <++>    # targetPort is the port the app is listening on 
+```
+
 ## Storage
 
 ### `PersistentVolume`
@@ -180,7 +184,6 @@ spec:
     pdName: gce_disk_name
     fsType: ext4
 ```
-
 
 ### `StorageClass`
 
@@ -252,22 +255,6 @@ data:
 ```
 
 Trivia: the reason for base64 encoding was not for encryption, but to support binary configuration files.
-
-### Environment variables
-* **Note that improperly formatted keys will not have associated environment
-  variables.**
-
-```yaml
-spec:
-  containers:
-    - image: some-image
-      envFrom:            # import all environment variables from `ConfigMap`
-        - prefix: CONFIG_
-          configMapRef:
-            name: <config map name>
-      args:
-        - "$(CONFIG_SOME_VALUE)"
-```
 
 ### Mounting configuration as a volume
 
