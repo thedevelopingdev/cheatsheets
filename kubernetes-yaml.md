@@ -1,67 +1,93 @@
-## General
-* Refer to other environment variables in a variable's value by using the `$(VAR)` syntax.
-```yaml
-- name: FIRST_VAR
-  value: "foo"
-- name: SECOND_VAR
-  value: "$(FIRST_VAR)bar"
-```
+# Kubernetes manifests (aka `.yaml` files) cheatsheet
+
+## Document conventions
+
+### Syntax
+- `<++>`. Angle brackets imply that the value inside (e.g. `++`) is not a
+literal and is instead a placeholder describing what values should replace
+the entire tag (e.g. `name: <str>` would become `name: foo`, where `foo` is
+the value that replaced the entire `<++>` tag, including the angle brackets).
 
 ## Applications
 
 ### `Pod`
 
+- Because the `Pod` is the fundamental unit of computation in Kubernetes, its
+  manifest is the most complete, since most other resources simply build upon
+  it.
+
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pod-name
+  name: my-pod                         # a descriptive name for the Pod
 spec:
   serviceAccountName: default
   restartPolicy: Always
+
+  # --- CONTAINERS ---
   containers:
-    - name: kubia
-      image: some/image
-      command: ["<override command>"]       # equivalent to ENTRYPOINT
-      args: ["[arg1]", "[arg2]", $(VAR)]    # equivalent to CMD
+    - name: ubuntu-container           # name of the container
+      image: ubuntu:18.04              # Docker image
+
+      # --- ENTRYPOINT ---
+      command:                         # Docker ENTRYPOINT override
+        - sleep
+      args:                            # Dockerfile CMD override
+        - "1"                          # must be strings
+        - "$(ENV_MANUAL) world"        # variable interpolation works
+
+      # --- OPEN PORTS ---
       ports:
-        - name: http                        # named ports
+        - name: http                   # named ports
           containerPort: 8080
-      env:                                  # environment variables
-        - name: <++>
-          value: "first"
-        - name: SECOND_VAR
+
+      # --- ENVIRONMENT VARIABLES ---
+      env:
+        - name: ENV_MANUAL             # name of the env var
+          value: "hello"               # value of the env var (must be string)
+        - name: ENV_FROM_CM            # env vars can also be taken from ConfigMaps
           valueFrom:
             configMapKeyRef:
               optional: false
-              name: <config map name>
-              key: <key in config map>
-      envFrom:                # import env variables from `ConfigMap`
-        - prefix: CONFIG_
+              name: some-cm            # name of ConfigMap
+              key: key-in-some-cm      # key in ConfigMap "some-cm"
+      envFrom:                         # a list of env vars can be loaded from a ConfigMap
+        - prefix: CONFIG_              # a prefix will be appended to the env vars
           configMapRef:
-            name: <++>
-      volumeMounts:                     # volume mounts
+            name: another-cm           # name of the ConfigMap to load from
+
+      # --- VOLUME MOUNTS ---
+      volumeMounts:
         - name: <++>
           mountPath: <++>
-      resources:                        # resource requests
+      
+      # --- RESOURCE REQUESTS ---
+      resources:
         requests:
           cpu: 200m
           memory: 10Mi
         limits:
           cpu: 1
           memory: 20Mi
-      livenessProbe:                    # liveness probes
+
+      # --- HEALTH CHECKS ---
+      livenessProbe:                   # liveness probes
         httpGet:
           path: /
           port: 8080
         initialDelaySeconds: 60
-      securityContext:                  # settings such as runAsUser
-        runAsUser: 405                  # 405 = guest user on Alpine linux
+
+      # --- SECURITY ---
+      securityContext:                 # settings such as runAsUser
+        runAsUser: 405                 # 405 = guest user on Alpine linux
         runAsNonRoot: true
-        readOnlyRootFilesystem: true    # disallow writing to container
-        capabilities:                   # Linux kernel capabilities
+        readOnlyRootFilesystem: true   # disallow writing to container
+        capabilities:                  # Linux kernel capabilities
           add:
             - SYS_PTRACE
+  
+  # --- VOLUMES ---
   volumes:
     - name: <++>
       gitRepo:
