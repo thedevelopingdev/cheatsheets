@@ -24,9 +24,9 @@
     * [Selecting specific keys to mount in volume](#selecting-specific-keys-to-mount-in-volume)
     * [Mounting the config volume without hiding default contents](#mounting-the-config-volume-without-hiding-default-contents)
   * [Image pull `Secrets` i.e. accessing private Docker registries](#image-pull-secrets-ie-accessing-private-docker-registries)
-  * [Cluster security](#cluster-security)
-    * [`Roles`](#roles)
-    * [`RoleBindings`](#rolebindings)
+* [Cluster security](#cluster-security)
+  * [`Roles`](#roles)
+  * [`RoleBindings`](#rolebindings)
 
 <!-- vim-markdown-toc -->
 
@@ -374,9 +374,9 @@ spec:
       name: main
 ```
 
-### Cluster security
+## Cluster security
 
-#### `Roles`
+### `Roles`
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -401,7 +401,7 @@ rules:
     - `list`
     - `deleteCollection`
 
-#### `RoleBindings`
+### `RoleBindings`
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
