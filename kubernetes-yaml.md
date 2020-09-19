@@ -218,8 +218,6 @@ spec:
 
 ### `StorageClass`
 
-See **`StorageClass#Parameters`** ([original](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters), [archive.is](https://archive.is/XI3ib)) for details on the parameters available for each provisioner.
-
 ```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -229,6 +227,8 @@ provisioner: <++>     # the provisioner to use
 parameters:           # parameters passed to the provisioner
   <++>: <++>
 ```
+
+See **`StorageClass#Parameters`** ([original](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters), [archive.is](https://archive.is/XI3ib)) for details on the parameters available for each provisioner.
 
 ### `PersistentVolumeClaim`
 
@@ -245,6 +245,8 @@ spec:
   accessModes:
     - <++>                  # ReadWriteOnce, ReadOnlyMany, ReadWriteMany
 ```
+
+See the Google Compute Engine documentation ([original](https://cloud.google.com/compute/docs/disks), [archive.is](https://archive.is/Uc6f6)) for the minimum and maximum allowed requests for GCP provisioned persistent disks.
 
 #### Google Cloud
 
