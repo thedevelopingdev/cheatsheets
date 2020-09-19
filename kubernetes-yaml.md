@@ -1,5 +1,35 @@
 # Kubernetes manifests (aka `.yaml` files) cheatsheet
 
+## Contents
+
+<!-- vim-markdown-toc GFM -->
+
+* [Document conventions](#document-conventions)
+  * [Syntax](#syntax)
+* [Applications](#applications)
+  * [`Pod`](#pod)
+  * [`ReplicationController`](#replicationcontroller)
+  * [`ReplicaSet`](#replicaset)
+  * [`Deployment`](#deployment)
+  * [`Service`](#service)
+* [Storage](#storage)
+  * [`PersistentVolume`](#persistentvolume)
+  * [`StorageClass`](#storageclass)
+  * [`PersistentVolumeClaim`](#persistentvolumeclaim)
+    * [Google Cloud](#google-cloud)
+* [Configuration](#configuration)
+  * [`ConfigMap`](#configmap)
+  * [`Secrets`](#secrets)
+  * [Mounting configuration as a volume](#mounting-configuration-as-a-volume)
+    * [Selecting specific keys to mount in volume](#selecting-specific-keys-to-mount-in-volume)
+    * [Mounting the config volume without hiding default contents](#mounting-the-config-volume-without-hiding-default-contents)
+  * [Image pull `Secrets` i.e. accessing private Docker registries](#image-pull-secrets-ie-accessing-private-docker-registries)
+  * [Cluster security](#cluster-security)
+    * [`Roles`](#roles)
+    * [`RoleBindings`](#rolebindings)
+
+<!-- vim-markdown-toc -->
+
 ## Document conventions
 
 ### Syntax
