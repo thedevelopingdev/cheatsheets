@@ -72,11 +72,18 @@ spec:
           memory: 20Mi
 
       # --- HEALTH CHECKS ---
-      livenessProbe:                   # liveness probes
+      livenessProbe:                   # liveness probe (only one!)
+        initialDelaySeconds: 60
+        periodSeconds: 20
         httpGet:
           path: /
           port: 8080
-        initialDelaySeconds: 60
+      # exec:                          # alt: execute a command
+      #   command:
+      #     - cat
+      #     - /tmp/healthy
+      # tcpSocket:                     # alt: open a TCP socket
+      #   port: 8080
 
       # --- SECURITY ---
       securityContext:                 # settings such as runAsUser
@@ -89,24 +96,24 @@ spec:
   
   # --- VOLUMES ---
   volumes:
-    - name: <++>
-      gitRepo:
-        repository: <++>
-        revision: <++>    # the branch
-        directory: <++>   # where in the volume to clone into
-    - name: <++>
+    - name: git-volume                 # name of the volume
+      gitRepo:                         # git repositories can be volumes
+        repository: orgname/config     # name of the repository
+        revision: master               # branch to pull
+        directory: .                   # where to save the repository in the volume
+    - name: gce-pd-manual-volume
       gcePersistentDisk:
-        pdName: <++>
+        pdName: my-gce-disk            # use a specific GCP disk
         fsType: ext4
-    - name: <++>
+    - name: pvc-volume
       persistentVolumeClaim:
-        claimName: <name of PersistentVolumeClaim>
-    - name: <++>
-      secret:
-        secretName: <name of Secret>
-    - name: <++>
+        claimName: my-pvc              # name of the PVC
+    - name: secrets-volume
+      secret:                          # load secrets as volume, where keys are files
+        secretName: my-secrets
+    - name: configmap-volume
       configMap:
-        name: <name of ConfigMap>
+        name: my-configmap
 ```
 
 - Find the full set of Linux kernel capabilities [here](https://man7.org/linux/man-pages/man7/capabilities.7.html).
