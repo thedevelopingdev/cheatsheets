@@ -12,3 +12,8 @@ VARIABLE=${1:-<default val>}
 netstat -tulpn | grep :<port>
 ss -tulpn | grep :<port>
 ```
+
+- Find largest files and directories
+```sh
+du -Sh | sort -rh
+```
