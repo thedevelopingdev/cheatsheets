@@ -59,3 +59,19 @@ gcloud compute project-info describe --project <project name>
 # regional quotas
 gcloud compute regions describe <region>
 ```
+
+
+## API
+
+### Instance metadata
+- https://cloud.google.com/compute/docs/storing-retrieving-metadata
+
+###
+
+- Necessary permissions
+  - compute.instances.deleteAccessConfig
+  - compute.instances.addAccessConfig
+
+Why is there "service accounts" and then "IAM"? I first create a service
+account, and then add it to IAM? Why? Can't it just appear as a account with no
+roles?

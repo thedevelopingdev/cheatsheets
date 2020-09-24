@@ -1,0 +1,6 @@
+- IAM Permissions reference
+  - https://cloud.google.com/iam/docs/permissions-reference
+  - REST API (which IAM refers to)
+    - https://cloud.google.com/compute/docs/reference/rest/v1/instances/get
+  - Compute Engine IAM roles and permissions
+    - https://cloud.google.com/compute/docs/access/iam

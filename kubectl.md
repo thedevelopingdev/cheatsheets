@@ -24,27 +24,31 @@ k get po \
 * List pods with labels
 
 ```sh
-k get po --show-labels
-k get po -L <label names>
+$ k get po --show-labels
+$ k get po -L <label names>
 ```
 
 * Add labels to pods
-```bash
+
+```sh
 $ k label po <pod name> <labels> [--overwrite]
 ```
 
 * Filter pods by label
-```bash
+
+```sh
 $ k get po -l <label>=<value>
 ```
 
 * explain a resource and its API fields
-```bash
+
+```sh
 $ k explain <resource>
 ```
 
 * port-forwarding to a pod for debugging
-```bash
+
+```sh
 $ k port-forward <pod name> <local port>:<pod port>
 ```
 
@@ -61,43 +65,36 @@ $ kubectl edit <resource type> <resource name>
 ```
 
 * Delete a `ReplicationController` without deleting `Pod`s
-```
+
+```sh
 $ k delete rc kubia --cascade=false
 ```
 
 * execute a command in a pod
   * the `--` signifies the end of command options for `kubectl`
-```
+
+```sh
 $ k exec <pod name> -- <command> [args]
 ```
 
-* create a temporary pod for debugging
-  * Useful images include
-    * `tutum/dnsutils`. for DNS related debugging
-```
-$ k run <pod name> --image=<image> --generator=run-pod/v1 --command -- sleep infinity
-```
-
 * get a list of all available Kubernetes resources
-```
+
+```sh
 $ k api-resources -o wide
 ```
 
 * get metadata about the cluster
-```
-$ k cluster-info
-```
 
-* accessing the Kubernetes API server from a development machine
-```
-$ k proxy 
+```sh
+$ k cluster-info
 ```
 
 * accessing the Kubernetes API from within a `Pod`
   * the alternative methods are
     * use a client library (Go or Python)
     * use an ambassador container as a proxy
-```
+
+```sh
 $ k describe po <pod name>
 ...
 Mounts:
@@ -113,12 +110,14 @@ $ k exec -it <pod name> -- bash
 ```
 
 * listing rollout history of a deployment
-```
+
+```sh
 $ k rollout history deployment <name>
 ```
 
 - rolling back a deployment
-```
+
+```sh
 $ k rollout undo deployment <name> [--to-revision=<number>]
 ```
 
@@ -131,7 +130,8 @@ k get events --watch
 ## Configuration
 
 * create a `ConfigMap` on the command line
-```
+
+```sh
 # from literals
 $ k create configmap <name> --from-literal=<key>=<value> \
   [--from-literal=<key 2>=<value 2>]
@@ -142,7 +142,8 @@ $ k create configmap <name> --from-file=<key>=<path to file> \
 ```
 
 * create a `Secret` on the command line
-```
+
+```sh
 k create secret generic <secret name> --from-file=[key=]<file name>
 ```
 
@@ -166,11 +167,6 @@ k logs -f <podname> -c <container>
 k rollout status deployment <deployment name>
 ```
 
-* increase output verbosity
-
-```sh
-k [-v={0..9}>] <command>
-```
 
 ## Security and `ServiceAccounts`
 
@@ -199,5 +195,24 @@ k create rolebinding <rolebinding_name>         \
 ```
 
 
+## Debugging
 
+* create a temporary pod for debugging
+  * Useful images include
+    * `tutum/dnsutils`. for DNS related debugging
 
+```sh
+$ k run <pod name> --image=<image> --generator=run-pod/v1 --command -- sleep infinity
+```
+
+* increase output verbosity
+
+```sh
+k [-v={0..9}>] <command>
+```
+
+* accessing the Kubernetes API server from a development machine
+
+```sh
+$ k proxy 
+```

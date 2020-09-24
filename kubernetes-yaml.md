@@ -12,6 +12,8 @@
   * [`ReplicaSet`](#replicaset)
   * [`Deployment`](#deployment)
   * [`Service`](#service)
+  * [`Job`](#job)
+  * [`CronJob`](#cronjob)
 * [Storage](#storage)
   * [`PersistentVolume`](#persistentvolume)
   * [`StorageClass`](#storageclass)
@@ -225,6 +227,36 @@ spec:
       targetPort: <++>    # targetPort is the port the app is listening on 
 ```
 
+
+### `Job`
+
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-batch-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: batch-job    # A label is needed for the Job to know whether or not it has already been scheduled.
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: main
+          image: repo/myimage
+
+```
+
+### `CronJob`
+
+```yaml
+apiVersion: batch/v1beta1
+kind: CronJob
+
+
+```
+
 ## Storage
 
 ### `PersistentVolume`
@@ -233,7 +265,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: <++>
+  name: my-persistent-volume
 spec:
   capacity:
     storage: 10Gi
@@ -245,6 +277,13 @@ spec:
     pdName: gce_disk_name
     fsType: ext4
 ```
+
+- Note that `PersistentVolumes` require manually provisioned disks from the
+  cluster administrator, which undesirably ties the software configuration to
+  the infrastructure. The recommended way to attach persistent disks is through
+  `StorageClasses` (which automatically provision the disks) and
+  `PersistentVolumeClaims` (a level of abstraction of volume names that allows
+  for different kinds of volumes in the backend).
 
 ### `StorageClass`
 
@@ -258,7 +297,10 @@ parameters:           # parameters passed to the provisioner
   <++>: <++>
 ```
 
-- See **`StorageClass#Parameters`** ([original](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters), [archive.is](https://archive.is/XI3ib)) for details on the parameters available for each provisioner.
+- See **`StorageClass#Parameters`**
+  ([original](https://kubernetes.io/docs/concepts/storage/storage-classes/#parameters),
+  [archive.is](https://archive.is/XI3ib)) for details on the parameters
+  available for each provisioner.
 
 ### `PersistentVolumeClaim`
 
@@ -276,7 +318,10 @@ spec:
     - <++>                  # ReadWriteOnce, ReadOnlyMany, ReadWriteMany
 ```
 
-- See the Google Compute Engine documentation ([original](https://cloud.google.com/compute/docs/disks), [archive.is](https://archive.is/Uc6f6)) for the minimum and maximum allowed requests for GCP provisioned persistent disks.
+- See the Google Compute Engine documentation
+  ([original](https://cloud.google.com/compute/docs/disks),
+  [archive.is](https://archive.is/Uc6f6)) for the minimum and maximum allowed
+  requests for GCP provisioned persistent disks.
 
 #### Google Cloud
 
