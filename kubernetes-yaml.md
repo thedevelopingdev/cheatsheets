@@ -22,9 +22,6 @@
 * [Configuration](#configuration)
   * [`ConfigMap`](#configmap)
   * [`Secrets`](#secrets)
-  * [Mounting configuration as a volume](#mounting-configuration-as-a-volume)
-    * [Selecting specific keys to mount in volume](#selecting-specific-keys-to-mount-in-volume)
-    * [Mounting the config volume without hiding default contents](#mounting-the-config-volume-without-hiding-default-contents)
   * [Image pull `Secrets` i.e. accessing private Docker registries](#image-pull-secrets-ie-accessing-private-docker-registries)
 * [Cluster security](#cluster-security)
   * [`Roles`](#roles)
@@ -146,6 +143,10 @@ spec:
     - name: configmap-volume
       configMap:
         name: my-configmap
+        defaultMode: 0700              # file permissions for mounted files
+        items:
+          - key: <configmap key>       # mount specific keys
+            path: <mounted file>
 ```
 
 - Find the full set of Linux kernel capabilities [here](https://man7.org/linux/man-pages/man7/capabilities.7.html).
@@ -366,48 +367,6 @@ data:
 ```
 
 Trivia: the reason for base64 encoding was not for encryption, but to support binary configuration files.
-
-### Mounting configuration as a volume
-
-Mounting configurations as volumes via `ConfigMaps` has the benefit that the
-containers will receive these updates, although the process has to  be
-programmed to detect these changes and apply them.
-
-#### Selecting specific keys to mount in volume
-```yaml
-spec:
-  volumes:
-    - name: <config name>
-      defaultMode: "6600"
-      configMap:
-        name: <configmap name>
-        items:
-          - key: <configmap key>
-            path: <mounted file>
-    - name: <secret name>
-      secret:
-        secretName: <secrets name>
-```
-
-#### Mounting the config volume without hiding default contents
-
-```yaml
-spec:
-  containers:
-    - image: some-image
-      volumeMounts:
-        - name: some-volume
-          mountPath: /etc/specific-file.conf
-          # specific file designated in volume definition
-          subPath: specific-file-in-volume.conf
-```
-
-Because these files don't get automatically updated by Kubernetes, it's better
-to mount full volumes, and then use symlinks to place the config files in the
-directories where they are needed.
-
-Alternatively, it is better to use immutable infrastructure and not modify
-`ConfigMaps` of running `Pods`.
 
 ### Image pull `Secrets` i.e. accessing private Docker registries
 
