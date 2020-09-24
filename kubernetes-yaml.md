@@ -245,7 +245,6 @@ spec:
       containers:
         - name: main
           image: repo/myimage
-
 ```
 
 ### `CronJob`
@@ -253,8 +252,12 @@ spec:
 ```yaml
 apiVersion: batch/v1beta1
 kind: CronJob
-
-
+metadata:
+  name: my-cron-job
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec: include(Job.spec)
 ```
 
 ## Storage
