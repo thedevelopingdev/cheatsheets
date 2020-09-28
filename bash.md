@@ -14,6 +14,13 @@ ss -tulpn | grep :<port>
 ```
 
 - Find largest files and directories
+
 ```sh
 du -Sh | sort -rh
+```
+
+- Create zip file from folder
+
+```sh
+zip <output.zip> -r <directory>
 ```

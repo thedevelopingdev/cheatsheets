@@ -3,6 +3,7 @@
 ## Installation
 * Last updated: September 4, 2020
 * Source: [Google Cloud Documentation](https://cloud.google.com/sdk/docs#deb)
+
 ```bash
 # 1. Add Cloud SDK URI as a package source.
 
@@ -23,22 +24,26 @@ gcloud init
 
 ## Usage
 * View the help menu and learn best practices.
+
 ```
 gsutil help
 ```
 
 * List existing buckets in the current project.
+
 ```
 gsutil list
 ```
 
 * Make a new bucket.
+
 ```
 gsutil mb -l <location> gs://<bucket name>
 ```
 
 * Copy (upload) local data to a Google Cloud Storage bucket.
 * Download data from Google Cloud Storage to a local file.
+
 ```
 # for single-file uploads
 gsutil cp <local file> gs://<bucket name>
@@ -54,16 +59,19 @@ gsutil cp -m <local file> gs://<bucket name>
 ```
 
 * Show objects in existing bucket.
+
 ```
 gsutil ls [-l] gs://<bucket name>
 ```
 
 * Reconstruct object after uploading to Google Cloud Storage.
+
 ```
 gsutil compose gs://<bucket name>/<blob glob> gs://<bucket name>/<blob>
 ```
 
 * Delete object from Google Cloud Storage.
+
 ```
 gsutil rm gs://<bucket name>/<blob>
 ```

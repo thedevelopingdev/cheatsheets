@@ -75,3 +75,11 @@ gcloud compute regions describe <region>
 Why is there "service accounts" and then "IAM"? I first create a service
 account, and then add it to IAM? Why? Can't it just appear as a account with no
 roles?
+
+
+## Debugging startup scripts
+
+```sh
+sudo journalctl -u google-startup-scripts.service
+```
+
