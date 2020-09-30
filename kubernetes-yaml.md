@@ -11,6 +11,7 @@
   * [`ReplicationController`](#replicationcontroller)
   * [`ReplicaSet`](#replicaset)
   * [`Deployment`](#deployment)
+  * [`StatefulSet`](#statefulset)
   * [`Service`](#service)
   * [`Job`](#job)
   * [`CronJob`](#cronjob)
@@ -175,7 +176,7 @@ spec:
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: <++>
+  name: my-replica-set
   labels:
     <++>: <++>
 spec:
@@ -191,24 +192,42 @@ spec:
 ```
 
 ### `Deployment`
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kubia
+  name: my-deployment
 spec:
   minReadySeconds: 60
   replicas: 3
   selector:
     matchLabels:
-      <++>: <++>
+      <label key>: <label value>
   strategy:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
     type: rollingUpdate
   template:
-    # (!-- Pod.spec --)
+    metadata: (!-- Pod.metadata --)
+    spec: (!-- Pod.spec --)
+```
+
+
+### `StatefulSet`
+
+```yaml
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: my-stateful-set
+spec:
+  serviceName: (!-- Service.metadata.name --) # valid reference to a headless service
+  replicas: 1
+  template:
+  volumeClaimTemplates:
+
 ```
 
 ### `Service`
@@ -220,6 +239,7 @@ metadata:
   name: <++>
 spec:
   type: <++>              # NodePort, LoadBalancer
+  clusterIP: None         # Create a headless service
   selector:
     <++>: <++>
   ports:
@@ -312,14 +332,14 @@ parameters:           # parameters passed to the provisioner
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: <++>
+  name: my-pvc
 spec:
-  storageClassName: <++>
+  storageClassName: (!-- StorageClass.metadata.name --)
   resources:
     requests:
-      storage: <++>
+      storage: 10Gi
   accessModes:
-    - <++>                  # ReadWriteOnce, ReadOnlyMany, ReadWriteMany
+    - ReadWriteOnce              # ReadWriteOnce, ReadOnlyMany, ReadWriteMany
 ```
 
 - See the Google Compute Engine documentation

@@ -11,30 +11,38 @@ complete -F __start_kubectl k
 ```
 
 ## Commands
-* Get custom columns; this one will show which nodes pods are running on.
-  * Find the custom column names by using `-o json`
-  * Sort by using `--sort-by`
+
+#### Get current version of Kubernetes
 
 ```sh
-k get po \
+$ k version
+```
+
+#### Get custom columns
+
+* Find the custom column names by using `-o json`
+* Sort by using `--sort-by`
+
+```sh
+$ k get po \
   -o custom-columns='NAME:metadata.name,IP:status.hostIP' \
   --sort-by 'spec.nodeName'
 ```
 
-* List pods with labels
+#### List pods with labels
 
 ```sh
 $ k get po --show-labels
 $ k get po -L <label names>
 ```
 
-* Add labels to pods
+#### Add labels to pods
 
 ```sh
 $ k label po <pod name> <labels> [--overwrite]
 ```
 
-* Filter pods by label
+#### Filter pods by label
 
 ```sh
 $ k get po -l <label>=<value>

@@ -19,6 +19,7 @@ output "[tf_output_name]" {
 ### Google Compute Engine
 
 #### VM instances
+
 ```
 resource "google_compute_instance" "[tf_vm_name]" {
   name = "[gcp_name]"
@@ -50,6 +51,9 @@ resource "google_compute_address" "[tf_name]" {
 
 #### Node Pool
 * Source: https://www.terraform.io/docs/providers/google/r/container_node_pool.html
+- Custom machine types: https://cloud.google.com/compute/docs/instances/creating-instance-with-custom-machine-type#gcloud
+  - https://archive.is/e4vGC
+
 ```
 resource "google_container_node_pool" "[tf_name]" {
   name       = "gke_node_pool_name"
