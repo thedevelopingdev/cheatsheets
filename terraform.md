@@ -16,6 +16,13 @@ output "[tf_output_name]" {
 
 ## Google Cloud
 
+### GCP API (how Terraform interfaces with GCP)
+
+- GCE
+  - https://cloud.google.com/compute/docs/reference/rest/v1
+- GKE
+  - https://cloud.google.com/kubernetes-engine/docs/reference/rest
+
 ### Google Compute Engine
 
 #### VM instances
@@ -45,6 +52,7 @@ resource "google_compute_address" "[tf_name]" {
 ```
 
 ### Google Kubernetes Engine
+
 
 #### Clusters
 * Source: https://www.terraform.io/docs/providers/google/r/container_cluster.html
