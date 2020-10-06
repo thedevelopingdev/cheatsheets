@@ -199,7 +199,8 @@ kind: Deployment
 metadata:
   name: my-deployment
 spec:
-  minReadySeconds: 60
+  minReadySeconds: 60    # the number of seconds the containers need to
+                         # stay alive before a Pod is marked as available
   replicas: 3
   selector:
     matchLabels:
@@ -208,7 +209,7 @@ spec:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
-    type: rollingUpdate
+    type: RollingUpdate
   template:
     metadata: (!-- Pod.metadata --)
     spec: (!-- Pod.spec --)
@@ -236,9 +237,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: <++>
+  name: my-service        # the name the service will be accessed by
 spec:
-  type: <++>              # NodePort, LoadBalancer
+  type: ClusterIP         # NodePort, LoadBalancer
   clusterIP: None         # Create a headless service
   selector:
     <++>: <++>
