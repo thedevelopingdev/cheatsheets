@@ -48,88 +48,90 @@ $ k label po <pod name> <labels> [--overwrite]
 $ k get po -l <label>=<value>
 ```
 
-* explain a resource and its API fields
+#### Explain a resource and its API fields
 
 ```sh
 $ k explain <resource>
 ```
 
-* port-forwarding to a pod for debugging
+#### Port-forwarding to a pod for debugging
 
 ```sh
 $ k port-forward <pod name> <local port>:<pod port>
 ```
 
-* creating a namespace
+#### Create a namespace
 
 ```sh
 $ k create ns <namespace name>
 ```
 
-* Edit a running resource
+#### Edit a running resource
 
 ```sh
 $ kubectl edit <resource type> <resource name>
 ```
 
-* Delete a `ReplicationController` without deleting `Pod`s
+#### Delete a `ReplicationController` without deleting `Pod`s
 
 ```sh
 $ k delete rc kubia --cascade=false
 ```
 
-* execute a command in a pod
-  * the `--` signifies the end of command options for `kubectl`
+#### Execute a command in a pod
 
 ```sh
 $ k exec <pod name> -- <command> [args]
 ```
 
-* get a list of all available Kubernetes resources
+* The `--` signifies the end of command options for `kubectl`
+
+#### Get a list of all available Kubernetes resources
 
 ```sh
 $ k api-resources -o wide
 ```
 
-* get metadata about the cluster
+#### Get metadata about the cluster
 
 ```sh
 $ k cluster-info
 ```
 
-* accessing the Kubernetes API from within a `Pod`
-  * the alternative methods are
-    * use a client library (Go or Python)
-    * use an ambassador container as a proxy
-
+#### Accessing the Kubernetes API from within a `Pod`
 ```sh
 $ k describe po <pod name>
-...
-Mounts:
-  /var/run/secrets/kubernetes.io/serviceaccount
-...
+# ... output trimmed ...
+# Mounts:
+#  /var/run/secrets/kubernetes.io/serviceaccount
+# ...
 
-$ k exec -it <pod name> -- bash
-# CURL_CA_BUNDLE=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-# TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
-# NS=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
-# curl -H "Authorization: Bearer $TOKEN" \
+# from within a pod
+CURL_CA_BUNDLE=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+NS=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
+curl -H "Authorization: Bearer $TOKEN" \
   https://kubernetes/api/v1/namespaces/$NS/pods
 ```
 
-* listing rollout history of a deployment
+* Alternative methods to reduce the complexity of querying the Kubernetes API
+  include:
+  * using a client library (Go or Python)
+  * using an ambassador container as a proxy
+
+#### List rollout history of a deployment
 
 ```sh
 $ k rollout history deployment <name>
 ```
 
-- rolling back a deployment
+#### Roll back a deployment
 
 ```sh
 $ k rollout undo deployment <name> [--to-revision=<number>]
 ```
 
-- Watch events emitted by the `API Server`
+#### Watch events emitted by the `API Server`
 
 ```sh
 k get events --watch
@@ -137,7 +139,7 @@ k get events --watch
 
 ## Configuration
 
-* create a `ConfigMap` on the command line
+#### Create a `ConfigMap` on the command line
 
 ```sh
 # from literals
@@ -149,10 +151,12 @@ $ k create configmap <name> --from-file=<key>=<path to file> \
   [--from-file=<key 2>=<path to file 2>]
 ```
 
-* create a `Secret` on the command line
+#### Create a `Secret` on the command line
 
 ```sh
-k create secret generic <secret name> --from-file=[key=]<file name>
+k create secret generic <secret name> \
+  [--from-file=[key=]<file name>]     \
+  [--from-literal=<key1>=<value1>]
 ```
 
 ## Debugging

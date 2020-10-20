@@ -76,12 +76,21 @@ spec:
       env:
         - name: ENV_MANUAL             # name of the env var
           value: "hello"               # value of the env var (must be string)
+
         - name: ENV_FROM_CM            # env vars can also be taken from ConfigMaps
           valueFrom:
             configMapKeyRef:
               optional: false
               name: some-cm            # name of ConfigMap
-              key: key-in-some-cm      # key in ConfigMap "some-cm"
+              key: key-in-some-cm      # key in ConfigMap
+
+        - name: ENV_FROM_SECRET        # env vars can also be created from Secrets
+          valueFrom:
+            secretKeyRef:
+              optional: false
+              name: some-secret        # name of Secret
+              key: key-in-some-secret  # key in Secret
+
       envFrom:                         # a list of env vars can be loaded from a ConfigMap
         - prefix: CONFIG_              # a prefix will be appended to the env vars
           configMapRef:
