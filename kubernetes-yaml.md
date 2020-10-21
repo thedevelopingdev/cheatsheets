@@ -267,6 +267,8 @@ kind: Job
 metadata:
   name: my-batch-job
 spec:
+  backoffLimit: 0         # number of backoff attempts to try (0 = no retry)
+
   template:
     metadata:
       labels:
@@ -287,6 +289,10 @@ metadata:
   name: my-cron-job
 spec:
   schedule: "* * * * *"
+
+  concurrencyPolicy: Forbid   
+  failedJobsHistoryLimit: 1   # How many failed jobs to keep track of
+
   jobTemplate:
     spec: include(Job.spec)
 ```
