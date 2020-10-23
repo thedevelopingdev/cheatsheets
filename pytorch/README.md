@@ -64,3 +64,10 @@ dtype = tensor.dtype
 cls_type = tensor.type()
 ```
 
+#### Tensor shape/size
+
+```python
+shape = tensor.shape
+dim0, dim1 = shape[0], shape[1]
+```
+
