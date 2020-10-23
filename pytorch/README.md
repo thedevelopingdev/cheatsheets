@@ -38,9 +38,9 @@ the backend (i.e. CPU or GPU).
 
 ### Booleans
 
-|Data type|dtype|CPU tensor|GPU tensor|
-|:--------|:---:|:--------:|:--------:|
-|Boolean|`torch.bool`|`torch.BoolTensor`|`torch.cuda.BoolTensor`|
+|Data type|dtype|CPU tensor|GPU tensor|Notes|
+|:--------|:---:|:--------:|:--------:|:----|
+|Boolean|`torch.bool`|`torch.BoolTensor`|`torch.cuda.BoolTensor`||
 
 
 ## Tensor creation
