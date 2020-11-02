@@ -1,0 +1,10 @@
+- Vertical guides at
+  - Desktop minimum
+    - 507 
+    - 2053
+  - Tablet
+    - 352.5
+    - 2207.5
+- Horizontal guides at 
+  - 508.5
+  - 931.5
