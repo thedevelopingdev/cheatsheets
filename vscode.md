@@ -16,11 +16,11 @@
   "vim.normalModeKeyBindingsNonRecursive": [
       {
           "before": ["j"],
-          "after": ["j", "z", "z"]
+          "after": ["g", "j"]
       },
       {
           "before": ["k"],
-          "after": ["k", "z", "z"]
+          "after": ["g", "k"]
       }
   ]
 }
