@@ -50,6 +50,15 @@ $ vim ~/.vimrc
 
 ## Commands
 
+### Monitoring
+
+```bash
+# monitoring a Kubernetes cluster
+kubectl top node
+kubectl top pod
+kubectl top pod --containers
+```
+
 #### Get current version of Kubernetes
 
 ```sh
@@ -262,4 +271,18 @@ $ k [-v={0..9}>] <command>
 
 ```sh
 $ k proxy 
+```
+
+
+## Helm
+
+```bash
+# Install a Helm chart with custom values
+helm install --values=<my-values.yaml> <chartname>
+
+# Get the values that can be customized
+helm show values <chart>
+
+# Keep track of a release's state
+helm status <release name>
 ```

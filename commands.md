@@ -16,6 +16,20 @@ launchctl setenv RSTUDIO_WHICH_R /Users/mattfeng/miniconda3/envs/R/bin/R
 zip OUTPUT_ZIP_NAME.zip -r DIRECTORY_TO_ARCHIVE
 ```
 
+## `sed`
+
+```bash
+# Delete lines based on pattern
+sed '/<regex pattern>/d'
+
+# In-place edit
+#   macOS
+sed -i "" SED_PATTERN_HERE YOUR_FILE
+
+#   Linux (gnu-sed)
+sed -i SED_PATTERN_HERE YOUR_FILE
+```
+
 ## DNS (`dig`)
 
 ```bash
@@ -106,6 +120,23 @@ docker commit -m "MESSAGE" CONTAINER IMAGE_NAME:TAG
 # run Docker container with debugging capabilities (for gdb)
 docker run -it --rm --cap-add=SYS_PTRACE --security-opt \
   seccomp=unconfined -v $(pwd):/mnt cpp-debug:0.0.1
+```
+
+## Kubernetes
+
+See [`kube.md`](./kube.md).
+
+## Vagrant
+
+```bash
+# Create a new virtual machine
+vagrant init <box type>
+
+# Shutdown a virtual machine
+vagrant halt
+
+# Get Vagrant ssh details
+vagrant ssh
 ```
 
 ## SSH
