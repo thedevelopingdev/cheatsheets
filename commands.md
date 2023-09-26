@@ -1,23 +1,36 @@
-# Programming quick reference
+# Command-line quick reference
 
-## Commands
-
-### launchctl
+## launchctl
 
 ```bash
 # Launching applications from Spotlight with environment variables
 launchctl setenv RSTUDIO_WHICH_R /Users/mattfeng/miniconda3/envs/R/bin/R
 ```
 
-### YouTube
+## Archives
+
+### `zip`
+
+```bash
+# Create zip file from folder
+zip OUTPUT_ZIP_NAME.zip -r DIRECTORY_TO_ARCHIVE
+```
+
+## DNS (`dig`)
+
+```bash
+# grab all DNS records (except for CNAME)
+dig +nocmd yourdomain.example any +multiline +noall +answer
+```
+
+## YouTube downloader
 
 ```bash
 # download mp4 from youtube using yt-dlp
 yt-dlp -S res,ext:mp4:m4a --recode mp4 https://www.youtube.com/watch?v=dQw4w9WgXcQ
 ```
 
-### Audio
-
+## ffmpeg (audio and video)
 ```bash
 # extract audio stream without re-encoding
 ffmpeg -i v.mp4 -c copy -map 0:a audio.wav
@@ -38,7 +51,32 @@ ffmpeg -i v.mp4 -q:a 0 -map a audio.mp3
 # replace audio from v.mp4 with audio from a.wav
 # 	use this for enhancing audio with Adobe Podcast
 ffmpeg -i v.mp4 -i a.wav -c:v copy -map 0:v:0 -map 1:a:0 new.mp4
-````
+
+# trim video from START_TIME to END_TIME
+
+```
+
+## Bash
+
+```bash
+# give VARIABLE a default value
+VARIABLE=${1:-<default val>}
+```
+
+## Networking and ports
+
+```bash
+# View which processes are bound to which ports
+netstat -tulpn | grep :YOUR_PORT
+ss -tulpn | grep :YOUR_PORT
+```
+
+## Filesystem
+
+```bash
+# Find largest files and directories
+du -Sh | sort -rh
+```
 
 ## Docker
 
@@ -64,6 +102,10 @@ docker save IMAGE_NAME | pv | gzip > OUTPUT.tar.gz
 
 # commit Docker container to image
 docker commit -m "MESSAGE" CONTAINER IMAGE_NAME:TAG
+
+# run Docker container with debugging capabilities (for gdb)
+docker run -it --rm --cap-add=SYS_PTRACE --security-opt \
+  seccomp=unconfined -v $(pwd):/mnt cpp-debug:0.0.1
 ```
 
 ## SSH
@@ -77,8 +119,3 @@ docker commit -m "MESSAGE" CONTAINER IMAGE_NAME:TAG
 - ubuntu: `cat /etc/X11/default-display-manager`
 - opensuse: `cat /usr/lib/X11/displaymanagers/default-displaymanager`
 - redhat/fedora: `cat /etc/sysconfig/desktop`
-
-## Links
-
-### Fonts
-- https://modernfontstacks.com/

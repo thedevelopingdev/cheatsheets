@@ -1,9 +1,19 @@
 # Docker cheatsheet
 
-## Command line interface
+## `Dockerfile`
+
+- `ENTRYPOINT`
+  - The default entrypoint is `/bin/sh -c`, with no command.
+- `CMD`
+  - Specifies arguments that will be fed to the `ENTRYPOINT`.
+- `shell` form vs. `exec` form
+  - Relevant commands: `RUN`, `ENTRYPOINT`, `CMD`
+  - Without the `shlex`-like syntax (i.e. list of commands and arguments), the command is run inside a shell (`shell` form).
+    - Running inside a shell entails a process running as `/bin/sh -c <command>`.
+  - With the `shlex`-like syntax, the command is not run inside a shell.
 
 ## Debugging
-* You cannot kill PID 1 in a container (it is the init process). ([Source: Stack Overflow](https://unix.stackexchange.com/questions/457649/unable-to-kill-process-with-pid-1-in-docker-container))
+- You cannot kill PID 1 in a container (it is the init process). ([Source: Stack Overflow](https://unix.stackexchange.com/questions/457649/unable-to-kill-process-with-pid-1-in-docker-container))
 
 
 ## Using Nvidia GPUs
@@ -14,7 +24,7 @@
   - [Original](https://nvidia.github.io/nvidia-container-runtime/)
   - [Archive](https://archive.is/GgiOE)
 
-```sh
+```bash
 # for debian based systems (e.g. ubuntu)
 
 curl -s -L https://nvidia.github.io/nvidia-container-runtime/gpgkey | \
