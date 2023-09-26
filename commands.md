@@ -67,7 +67,8 @@ ffmpeg -i v.mp4 -q:a 0 -map a audio.mp3
 ffmpeg -i v.mp4 -i a.wav -c:v copy -map 0:v:0 -map 1:a:0 new.mp4
 
 # trim video from START_TIME to END_TIME
-
+ffmpeg -i INPUT.mp4 -ss START_HR:START_MIN:START_SEC -to START_HR:END_MIN:END_SEC -c:v copy -c:a copy OUTPUT.mp4
+# e.g. ffmpeg -i INPUT.mp4 -ss 00:10:15 -to 00:20:32 -c:v copy -c:a copy OUTPUT.mp4
 ```
 
 ## Bash
