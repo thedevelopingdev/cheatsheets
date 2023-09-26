@@ -110,7 +110,7 @@ docker buildx build --progress=plain
 docker buildx build --no-cache
 
 # send Docker image to another computer
-docker save IMAGE_NAME | gzip | pv | ssh user@host docker load
+docker save IMAGE_NAME | gzip | pv | ssh USER@HOST docker load
 
 # save Docker image
 docker save IMAGE_NAME | pv | gzip > OUTPUT.tar.gz
