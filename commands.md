@@ -7,6 +7,17 @@
 launchctl setenv RSTUDIO_WHICH_R /Users/mattfeng/miniconda3/envs/R/bin/R
 ```
 
+## `stow`
+
+```bash
+# install software to /usr/local/stow/
+# e.g. for a piece of software called mutagen
+#      /usr/local/stow/mutagen/bin/mutagen
+
+/usr/local/stow $ stow mutagen
+```
+
+
 ## Archives
 
 ### `zip`
