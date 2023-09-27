@@ -17,6 +17,29 @@ launchctl setenv RSTUDIO_WHICH_R /Users/mattfeng/miniconda3/envs/R/bin/R
 /usr/local/stow $ stow mutagen
 ```
 
+## Databases
+
+### MySQL
+
+```bash
+# connect to mysql database with the command line
+mysql -u <USERNAME> -p<PASSWORD> -h <HOST> -P <PORT> -D <DATABASE>
+```
+
+```sql
+;-- show all tables
+SHOW TABLES;
+
+;-- show schema of table;
+SHOW COLUMNS FROM <table_name>;
+DESCRIBE <table_name>;
+
+;-- delete all rows from table
+DELETE FROM <table_name>;
+
+;-- delete select rows from table
+DELETE FROM <table_name> WHERE <condition>;
+```
 
 ## Archives
 
@@ -113,12 +136,19 @@ docker buildx build --platform linux/arm64/v8 --load -t IMAGE_NAME:arm64 ..
 # build Docker image for Linux
 docker buildx build --platform linux/amd64 --load -t IMAGE_NAME ..
 
+# building a multi-arch build with buildx
+docker buildx build --platform=linux/amd64,linux/arm64 -t IMAGE_NAME:TAG .
+
 # use plain text progress (i.e. to see `echo` outputs)
 # https://dev.to/lboix/dockerfile-how-to-output-the-result-of-a-command-when-building-an-image-35dp
 docker buildx build --progress=plain
 
 # don't use cache
 docker buildx build --no-cache
+
+# run a Docker container with port forwarding
+# and is removed on exit
+docker run -d -p HOST_PORT:CONTAINER_PORT --rm --name DESIRED_CONTAINER_NAME IMAGE_NAME[:TAG]
 
 # send Docker image to another computer
 docker save IMAGE_NAME | gzip | pv | ssh USER@HOST docker load

@@ -57,15 +57,12 @@ $ vim ~/.vimrc
 kubectl top node
 kubectl top pod
 kubectl top pod --containers
+
+# get current version of Kubernetes
+kubectl version
 ```
 
-#### Get current version of Kubernetes
-
-```sh
-$ k version
-```
-
-#### Get custom columns
+### Get custom columns
 
 * Find the custom column names by using `-o json`
 * Sort by using `--sort-by`
@@ -76,23 +73,33 @@ $ k get po \
   --sort-by 'spec.nodeName'
 ```
 
-#### List pods with labels
+### Pods
 
-```sh
-$ k get po --show-labels
-$ k get po -L <label names>
-```
+```bash
+# List pods with labels
+kubectl get po --show-labels
+kubectl get po -L <label names>
 
-#### Add labels to pods
+# Add labels to pods
+kubectl label po <pod name> <labels> [--overwrite]
 
-```sh
-$ k label po <pod name> <labels> [--overwrite]
-```
+# Filter pods by label
+kubectl get po -l <label>=<value>
 
-#### Filter pods by label
+# create a debugging pod
+# source: https://archive.ph/Miwsz
+kubectl run DESIRED_DEBUG_POD_DEPLOYMENT_NAME --rm -i --tty --image ubuntu -- bash
 
-```sh
-$ k get po -l <label>=<value>
+# Port-forwarding to a pod for debugging
+kubectl port-forward <pod name> <local port>:<pod port>
+
+# Execute a command in a pod
+#   the `--` signifies the end of command options for `kubectl`
+kubectl exec <pod name> -- <command> [args]
+
+# Get an interactive shell
+#   we use /bin/sh because /bin/bash is generally not available)
+kubectl exec -it POD_NAME [-c CONTAINER_NAME] -- /bin/sh
 ```
 
 #### Explain a resource and its API fields
@@ -101,16 +108,11 @@ $ k get po -l <label>=<value>
 $ k explain <resource>
 ```
 
-#### Port-forwarding to a pod for debugging
+### Namespaces
 
-```sh
-$ k port-forward <pod name> <local port>:<pod port>
-```
-
-#### Create a namespace
-
-```sh
-$ k create ns <namespace name>
+```bash
+# create a namespace
+kubectl create ns DESIRED_NAMESPACE_NAME
 ```
 
 #### Edit a running resource
@@ -124,14 +126,6 @@ $ kubectl edit <resource type> <resource name>
 ```sh
 $ k delete rc kubia --cascade=false
 ```
-
-#### Execute a command in a pod
-
-```sh
-$ k exec <pod name> -- <command> [args]
-```
-
-* The `--` signifies the end of command options for `kubectl`
 
 #### Get a list of all available Kubernetes resources
 
@@ -166,16 +160,14 @@ curl -H "Authorization: Bearer $TOKEN" \
   * using a client library (Go or Python)
   * using an ambassador container as a proxy
 
-#### List rollout history of a deployment
+### Deployments
 
-```sh
-$ k rollout history deployment <name>
-```
+```bash
+# List rollout history of a deployment
+kubectl rollout history deployment <name>
 
-#### Roll back a deployment
-
-```sh
-$ k rollout undo deployment <name> [--to-revision=<number>]
+# Roll back a deployment
+kubectl rollout undo deployment <name> [--to-revision=<number>]
 ```
 
 #### Watch events emitted by the `API Server`
@@ -198,12 +190,18 @@ $ k create configmap <name> --from-file=<key>=<path to file> \
   [--from-file=<key 2>=<path to file 2>]
 ```
 
-#### Create a `Secret` on the command line
+### Secrets
 
-```sh
-$ k create secret generic <secret name> \
-  [--from-file=[key=]<file name>]     \
-  [--from-literal=<key1>=<value1>]
+```bash
+# create a Secret from a literal
+kubectl create secret generic DESIRED_SECRET_NAME --from-literal=<key1>=<value1>
+
+# create a Secret from an environment file
+# source: https://archive.ph/46UEE
+kubectl create secret generic <secretName> --from-env-file=<file>
+
+# read a Secret 
+kubectl get secret SECRET_NAME -o jsonpath="{.data.<DATA>}" | base64 --decode
 ```
 
 ## Security and `ServiceAccounts`

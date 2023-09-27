@@ -2,6 +2,7 @@
 
 ## `Dockerfile`
 
+- Use `.dockerignore` to ignore particular files when using commands such as `COPY`.
 - `ENTRYPOINT`
   - The default entrypoint is `/bin/sh -c`, with no command.
 - `CMD`
