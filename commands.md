@@ -41,6 +41,15 @@ DELETE FROM <table_name>;
 DELETE FROM <table_name> WHERE <condition>;
 ```
 
+### PostgreSQL
+
+```bash
+# connect to database using psql
+psql -h HOST_NAME -p 5432 -d mydatabase -U admin
+# e.g. connecting to local database running in Docker
+psql -h localhost -p 5432 -d DATABASE_NAME -U USERNAME
+```
+
 ## Archives
 
 ### `zip`
