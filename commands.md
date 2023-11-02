@@ -50,6 +50,16 @@ psql -h HOST_NAME -p 5432 -d mydatabase -U admin
 psql -h localhost -p 5432 -d DATABASE_NAME -U USERNAME
 ```
 
+### Connection URIs
+
+```
+# SQLAlchemy
+# ==========
+
+# PostgreSQL
+postgresql+psycopg2://username:password@host:port/database_name
+```
+
 ## Archives
 
 ### `zip`
