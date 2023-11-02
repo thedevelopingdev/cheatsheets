@@ -131,10 +131,18 @@ du -Sh | sort -rh
 
 ```bash
 # build Docker image for Apple Silicon (arm64/v8) Macs
-docker buildx build --platform linux/arm64/v8 --load -t IMAGE_NAME:arm64 ..
+docker buildx build --platform linux/arm64/v8 --load -t IMAGE_NAME:arm64 .
 
-# build Docker image for Linux
-docker buildx build --platform linux/amd64 --load -t IMAGE_NAME ..
+# build Docker image for x86_64
+docker buildx build --platform linux/amd64 --load -t IMAGE_NAME .
+
+# (!!) use this one; saves as .tar that you can then load
+# since --load fails silently (and you will waste time rebuilding the image)
+# source: https://github.com/docker/buildx/issues/593
+# source: 
+docker buildx build --platform linux/amd64 --output="type=docker,push=false,name=IMAGE_NAME,dest=/tmp/img.tar" .
+docker load --input /tmp/img.tar
+rm -f /tmp/img.tar
 
 # building a multi-arch build with buildx
 docker buildx build --platform=linux/amd64,linux/arm64 -t IMAGE_NAME:TAG .
