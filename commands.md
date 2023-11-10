@@ -1,5 +1,24 @@
 # Command-line quick reference
 
+## screen
+
+```bash
+screen -S NAME # start a session with name NAME
+# <C-a> + d    # detach
+
+screen -r NAME # reattach
+```
+
+## NVIDIA
+
+```bash
+# get list of installed nvidia drivers
+apt list --installed 'nvidia-driver-*'
+
+# get full names of installed GPUs
+nvidia-smi -L
+```
+
 ## launchctl
 
 ```bash
