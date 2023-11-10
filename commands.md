@@ -7,6 +7,10 @@ screen -S NAME # start a session with name NAME
 # <C-a> + d    # detach
 
 screen -r NAME # reattach
+
+# (useful for scripts)
+# create screen session NAME and run command COMMAND in the session
+screen -d -m -S NAME bash -c "COMMAND"
 ```
 
 ## NVIDIA
