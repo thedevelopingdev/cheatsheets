@@ -1,6 +1,9 @@
 # apt
 
 ```bash
+# sources:
+# - https://askubuntu.com/questions/1286545/what-commands-exactly-should-replace-the-deprecated-apt-key/1307181#1307181
+
 # Adding a repository
 vim /etc/apt/sources.list.d/debian.list
 
