@@ -17,6 +17,13 @@ vault status
 vault operator unseal
 ```
 
+## Creating tokens
+
+```bash
+# https://developer.hashicorp.com/vault/tutorials/getting-started/getting-started-authentication
+```
+
+
 ## Key-value store
 
 ```bash
@@ -24,9 +31,11 @@ vault operator unseal
 vault secrets list
 
 # enable a v2 key-value store at mount point kv_secrets/
+# https://developer.hashicorp.com/vault/docs/commands/secrets/enable
 vault secrets enable -version=2 -path=kv_secrets kv
 
 # set key=value pairs in secret located at kv_secrets/data/sample_creds
+# https://developer.hashicorp.com/vault/docs/secrets/kv/kv-v2
 vault kv -mount=kv_secrets put sample-creds key1=value1 key2=value2
 
 # read key=value pairs stored in kv_secrets/data/sample_creds

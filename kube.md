@@ -1,51 +1,13 @@
 # `kubectl` Cheatsheet
 
-* [Installation](#installation)
-    * [Add autocomplete to `kubectl` on `zsh`](#add-autocomplete-to-`kubectl`-on-`zsh`)
-* [Commands](#commands)
-    * [Get current version of Kubernetes](#get-current-version-of-kubernetes)
-    * [Get custom columns](#get-custom-columns)
-    * [List pods with labels](#list-pods-with-labels)
-    * [Add labels to pods](#add-labels-to-pods)
-    * [Filter pods by label](#filter-pods-by-label)
-    * [Explain a resource and its API fields](#explain-a-resource-and-its-api-fields)
-    * [Port-forwarding to a pod for debugging](#port-forwarding-to-a-pod-for-debugging)
-    * [Create a namespace](#create-a-namespace)
-    * [Edit a running resource](#edit-a-running-resource)
-    * [Delete a `ReplicationController` without deleting `Pod`s](#delete-a-`replicationcontroller`-without-deleting-`pod`s)
-    * [Execute a command in a pod](#execute-a-command-in-a-pod)
-    * [Get a list of all available Kubernetes resources](#get-a-list-of-all-available-kubernetes-resources)
-    * [Get metadata about the cluster](#get-metadata-about-the-cluster)
-    * [Accessing the Kubernetes API from within a `Pod`](#accessing-the-kubernetes-api-from-within-a-`pod`)
-    * [List rollout history of a deployment](#list-rollout-history-of-a-deployment)
-    * [Roll back a deployment](#roll-back-a-deployment)
-    * [Watch events emitted by the `API Server`](#watch-events-emitted-by-the-`api-server`)
-* [Configuration](#configuration)
-    * [Create a `ConfigMap` on the command line](#create-a-`configmap`-on-the-command-line)
-    * [Create a `Secret` on the command line](#create-a-`secret`-on-the-command-line)
-* [Security and `ServiceAccounts`](#security-and-`serviceaccounts`)
-    * [Create a `ServiceAccount`](#create-a-`serviceaccount`)
-    * [Create a `Role`](#create-a-`role`)
-    * [Create a `RoleBinding`](#create-a-`rolebinding`)
-* [Debugging](#debugging)
-    * [Obtain application log of a crash container](#obtain-application-log-of-a-crash-container)
-    * [Watch the logs of a running container](#watch-the-logs-of-a-running-container)
-    * [Check the status of a rollout](#check-the-status-of-a-rollout)
-    * [Create a temporary pod for debugging](#create-a-temporary-pod-for-debugging)
-    * [Increase output verbosity](#increase-output-verbosity)
-    * [Accessing the Kubernetes API server from a development machine](#accessing-the-kubernetes-api-server-from-a-development-machine)
-
 ## Installation
 
 #### Add autocomplete to `kubectl` on `zsh`
 
-```sh
-$ vim ~/.vimrc
-
-# add the following to ~/.zshrc
-# source <(kubectl completion zsh)
-# alias k=kubectl
-# complete -F __start_kubectl k
+```bash
+# add the following lines to ~/.zshrc
+alias k=kubectl
+source <(kubectl completion zsh)
 ```
 
 ## Commands
