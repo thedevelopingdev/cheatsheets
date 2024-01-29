@@ -1,6 +1,13 @@
 # Command-line quick reference
 
-## screen
+## `sudo`
+
+```bash
+# get an interactive shell as restricted-user
+sudo su -s "/bin/bash" restricted-user
+```
+
+## `screen`
 
 ```bash
 screen -S NAME # start a session with name NAME
@@ -232,11 +239,11 @@ vagrant ssh
 ```
 
 ## SSH
-- https://wiki.gentoo.org/wiki/SSH_jump_host
-- https://stackoverflow.com/questions/16212816/setting-up-openssh-for-windows-using-public-key-authentication
 
-## RAID
-- https://www.prepressure.com/library/technology/raid
+```bash
+# generate SSH public key from private key
+ssh-keygen -f PRIVATE_KEY_FILE -y > PUBLIC_KEY_FILE
+```
 
 ## GUI
 - ubuntu: `cat /etc/X11/default-display-manager`
